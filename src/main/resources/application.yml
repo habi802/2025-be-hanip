@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://192.168.0.84/first_project
+    username: green1
+    password: spring502
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mappers/**/*.xml
