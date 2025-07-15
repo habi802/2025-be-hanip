@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "kr.co.hanip.2025-be-hanip.cart.CartMapper">
+    <insert id="save">
+        INSERT INTO carts
+         set user_id = #{userId}
+           , menu_id = #{menuId}
+           , quantity = #{quantity}
+    </insert>
+
+    <select id="findAllItemAndUserId">
+        SELECT id, user_id, menu_id, quantity, created, updated
+         FROM carts
+        WHERE user_id = #{userId}
+    </select>
+</mapper>
