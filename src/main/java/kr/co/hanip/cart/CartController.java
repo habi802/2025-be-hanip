@@ -24,7 +24,7 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CartGetRes>> findAll() {
+    public ResponseEntity<List<CartGetRes>> findAll(int userId) {
         return null;
     }
 }
