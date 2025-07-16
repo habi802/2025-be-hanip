@@ -1,8 +1,10 @@
 package kr.co.hanip.menu;
 
-import kr.co.hanip.menu.model.MenuPostReq;
+import kr.co.hanip.menu.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -16,5 +18,17 @@ public class MenuService {
         return menuMapper.menuPost(req);
     }
 
+    public List<MenuGetListRes> menuGetList(int storeId){
+        return menuMapper.menuGetList(storeId);
+    }
+    public MenuGetRes menuGetOne(int menuId){
+        return menuMapper.menuGetOne(menuId);
+    }
+    public int menuPut(MenuPutReq req){
+        return menuMapper.menuModify(req);
+    }
+    public int menuDelete(int menuId){
+        return menuMapper.menuDelete(menuId);
+    }
 
 }

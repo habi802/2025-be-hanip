@@ -10,15 +10,32 @@
         ,   comment =#{comment}
         ,   price = #{price}
         ,   image_path = #{imagePath}
-        ORDER By id DESC
     </insert>
 
     <select id="menuGetList">
-        SELECT name, comment, price
+        SELECT id AS menuId, store_id, name, comment, price, image_path
         FROM menus
+        ORDER BY id DESC
     </select>
 
+    <select id="menuGetOne">
+        SELECT id AS menuId, store_id, name, comment, price, image_path
+        FROM menus
+        WHERE id = #{menuId}
+    </select>
 
+    <update id="menuModify">
+        UPDATE menus
+        SET name = #{name}
+        ,   comment =#{comment}
+        ,   price = #{price}
+        ,   image_path = #{imagePath}
+        WHERE id = #{menuId}
+    </update>
+    <delete id="menuDelete">
+        DELETE FROM menus
+        WHERE id = #{menuId}
+    </delete>
 
 
 
