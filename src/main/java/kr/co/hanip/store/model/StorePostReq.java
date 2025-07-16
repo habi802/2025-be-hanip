@@ -15,5 +15,6 @@ public class StorePostReq {
     private String businessNumber;
     private String licensePath;
     private String address;
+    private String tel;
     private String ownerName;
 }

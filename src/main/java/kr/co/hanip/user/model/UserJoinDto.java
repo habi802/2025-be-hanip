@@ -7,8 +7,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@Builder
 @ToString
-public class UserJoinReq {
+public class UserJoinDto {
+    private int userId;
     private String name;
     private String loginId;
     private String loginPw;

@@ -18,7 +18,6 @@ public class StoreService {
     private final UserMapper userMapper;
 
     public int saveStore(StorePostReq req, int userId) {
-        StorePostDto storePostDto = new StorePostDto();
         // int result = storeMapper.save(req);
         return 1;
     }

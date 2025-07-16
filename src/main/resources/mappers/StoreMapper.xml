@@ -10,6 +10,7 @@
         , business_number = #{businessNumber}
         , license_path = #{licensePath}
         , address = #{address}
+        , tel = #{tel}
         , owner_name = #{ownerName}
     </insert>
 

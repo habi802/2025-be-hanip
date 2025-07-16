@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
-    int save(UserJoinReq req);
+    int save(UserJoinDto dto);
     UserLoginRes findByLoginId(UserLoginReq req);
     UserGetRes findByUserId(int userId);
     String findPasswordByUserId(int userId);
