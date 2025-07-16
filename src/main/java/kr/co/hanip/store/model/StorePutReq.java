@@ -16,4 +16,7 @@ public class StorePutReq {
     private String businessNumber;
     private String licensePath;
     private String address;
+    private String tel;
+    private String password;
+    private String ownerName;
 }

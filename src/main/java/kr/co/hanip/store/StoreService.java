@@ -2,8 +2,10 @@ package kr.co.hanip.store;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.hanip.store.model.*;
+import kr.co.hanip.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreService {
     private final StoreMapper storeMapper;
+    private final UserMapper userMapper;
 
-    public int saveStore(StorePostDto req, int userId) {
-        int result = storeMapper.save(req);
+    public int saveStore(StorePostReq req, int userId) {
+        StorePostDto storePostDto = new StorePostDto();
+        // int result = storeMapper.save(req);
         return 1;
     }
 
@@ -28,18 +32,25 @@ public class StoreService {
     }
 
     public int modifyStore(StorePutReq req, int userId) {
-        StorePutDto storePutDto = StorePutDto.builder()
-                .userId(userId)
-                .storeId(req.getStoreId())
-                .category(req.getCategory())
-                .name(req.getName())
-                .comment(req.getComment())
-                .businessNumber(req.getBusinessNumber())
-                .licensePath(req.getLicensePath())
-                .address(req.getAddress())
-                .build();
+        String encodePw = userMapper.findPasswordByUserId(userId);
+        if (!BCrypt.checkpw(req.getPassword(), encodePw)) {
+            return 0;
+        } else {
+            StorePutDto storePutDto = StorePutDto.builder()
+                    .userId(userId)
+                    .storeId(req.getStoreId())
+                    .category(req.getCategory())
+                    .name(req.getName())
+                    .comment(req.getComment())
+                    .businessNumber(req.getBusinessNumber())
+                    .licensePath(req.getLicensePath())
+                    .address(req.getAddress())
+                    .tel(req.getTel())
+                    .ownerName(req.getOwnerName())
+                    .build();
 
-        return storeMapper.modifyStoreByUserId(storePutDto);
+            return storeMapper.modifyStoreByUserId(storePutDto);
+        }
     }
 
     public int removeStore(StoreDeleteReq req) {
