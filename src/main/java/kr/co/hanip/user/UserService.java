@@ -1,5 +1,6 @@
 package kr.co.hanip.user;
 
+import kr.co.hanip.store.StoreMapper;
 import kr.co.hanip.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

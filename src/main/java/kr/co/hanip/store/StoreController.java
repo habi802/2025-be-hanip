@@ -55,8 +55,8 @@ public class StoreController {
     // 가게 정보 수정 (PUT)
     @PutMapping
     public ResponseEntity<ResultResponse<Integer>> modifyStore(@RequestBody StorePutReq req, HttpServletRequest httpReq) {
-        int logginedUserId = 2;// (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         log.info("modifyReq: {}", req);
+        int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         int result = storeService.modifyStore(req, logginedUserId);
         if (result == 0) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -66,12 +66,16 @@ public class StoreController {
     }
 
     // 가게 삭제 (DELETE)
-    @DeleteMapping("{storeId}")
-    public ResponseEntity<?> deleteStore(@PathVariable int storeId, HttpServletRequest httpReq) {
-        log.info("deleteStoreId: {}", storeId);
+    @DeleteMapping
+    public ResponseEntity<ResultResponse<Integer>> deleteStore(@RequestBody StoreDeleteReq req, HttpServletRequest httpReq) {
+        log.info("deleteReq : {}", req);
         int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        StoreDeleteReq storeDeleteReq = new StoreDeleteReq(storeId, logginedUserId);
-        int result = storeService.removeStore(storeDeleteReq);
-        return ResponseEntity.ok(result);
+        req.setStoreId(req.getStoreId());
+        int result = storeService.removeStore(req, logginedUserId);
+        if (result == 0) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401,"비밀번호가 일치하지 않습니다."));
+        }
+        return ResponseEntity.ok(ResultResponse.success(result));
     }
 }
