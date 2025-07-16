@@ -63,4 +63,10 @@ public class UserController {
         }
         return ResponseEntity.ok(ResultResponse.success(result));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ResultResponse<Integer>> logout(HttpServletRequest httpReq) {
+        HttpUtils.removeSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        return ResponseEntity.ok(ResultResponse.success(1));
+    }
 }
