@@ -21,13 +21,13 @@ public class StoreController {
     private final StoreService storeService;
 
     // 가게 등록 (POST)
-    @PostMapping
-    public ResponseEntity<?> saveStore(@RequestBody StorePostReq req, HttpServletRequest httpReq) {
-        int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        log.info("storeSaveDto: {}", req);
-        int result = storeService.saveStore(req, logginedUserId);
-        return ResponseEntity.ok(result);
-    }
+//    @PostMapping
+//    public ResponseEntity<?> saveStore(@RequestBody StorePostReq req, HttpServletRequest httpReq) {
+//        int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+//        log.info("storeSaveDto: {}", req);
+//        int result = storeService.saveStore(req, logginedUserId);
+//        return ResponseEntity.ok(result);
+//    }
 
     // 가게 조회 (GET)
     @GetMapping
@@ -70,7 +70,6 @@ public class StoreController {
     public ResponseEntity<ResultResponse<Integer>> deleteStore(@RequestBody StoreDeleteReq req, HttpServletRequest httpReq) {
         log.info("deleteReq : {}", req);
         int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        req.setStoreId(req.getStoreId());
         int result = storeService.removeStore(req, logginedUserId);
         if (result == 0) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

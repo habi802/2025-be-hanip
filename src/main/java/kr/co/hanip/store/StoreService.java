@@ -17,10 +17,10 @@ public class StoreService {
     private final StoreMapper storeMapper;
     private final UserMapper userMapper;
 
-    public int saveStore(StorePostReq req, int userId) {
-        // int result = storeMapper.save(req);
-        return 1;
-    }
+//    public int saveStore(StorePostReq req, int userId) {
+//        // int result = storeMapper.save(req);
+//        return 1;
+//    }
 
     public List<StoreGetListRes> findAllStore(StoreGetListReq req) {
         return storeMapper.findAllStore(req);

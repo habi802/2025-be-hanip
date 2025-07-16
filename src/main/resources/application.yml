@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mariadb://127.0.0.1/first_project
-    username: root
-    password: worms0249
+    url: jdbc:mariadb://192.168.0.84/first_project
+    username: green1
+    password: spring502
 
 mybatis:
   configuration:
