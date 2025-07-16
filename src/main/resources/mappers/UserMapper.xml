@@ -3,13 +3,13 @@
 <mapper namespace="kr.co.hanip.user.UserMapper">
     <insert id="save">
         INSERT INTO users
-        SET name = ${name},
-            login_id = ${loginId},
-            login_pw = ${loginPw},
-            address = ${address},
-            phone = ${phone},
-            email = ${email},
-            image_path = ${imagePath},
-            role = ${role}
+        SET name = #{name},
+            login_id = #{loginId},
+            login_pw = #{loginPw},
+            address = #{address},
+            phone = #{phone},
+            email = #{email},
+            image_path = #{imagePath},
+            role = #{role}
     </insert>
 </mapper>
