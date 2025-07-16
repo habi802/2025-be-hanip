@@ -9,13 +9,13 @@ import java.beans.ConstructorProperties;
 @Getter
 @Setter
 @ToString
-public class StoreListReq {
+public class StoreGetListReq {
     private String searchText;
-    private String categoryId;
+    private String category;
 
-    @ConstructorProperties({"category_id", "search_text"})
-    public StoreListReq(String categoryId, String searchText) {
-        this.categoryId = categoryId;
+    @ConstructorProperties({"category", "search_text"})
+    public StoreGetListReq(String category, String searchText) {
+        this.category = category;
         this.searchText = searchText;
     }
 }

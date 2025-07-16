@@ -1,5 +1,6 @@
 package kr.co.hanip.store.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,14 +8,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StoreGetRes {
-    private int id;
+@Builder
+public class StorePutDto {
     private int userId;
+    private int storeId;
     private String category;
     private String name;
     private String comment;
+    private String businessNumber;
+    private String licensePath;
     private String address;
-    private String tel;
-    private String ownerName;
-    private int isOpen;
 }

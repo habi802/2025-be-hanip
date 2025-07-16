@@ -7,10 +7,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StoreListRes {
+public class StoreGetListRes {
     private int storeId;
     private String name;
     private String category;
+    private int isOpen;
     private int likeCount;
     private long avgRating;
 }

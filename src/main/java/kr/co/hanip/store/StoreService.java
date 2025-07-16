@@ -1,9 +1,7 @@
 package kr.co.hanip.store;
 
-import kr.co.hanip.store.model.StoreGetRes;
-import kr.co.hanip.store.model.StoreListReq;
-import kr.co.hanip.store.model.StoreListRes;
-import kr.co.hanip.store.model.StorePostDto;
+import jakarta.servlet.http.HttpServletRequest;
+import kr.co.hanip.store.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,12 +19,31 @@ public class StoreService {
         return 1;
     }
 
-    public List<StoreListRes> findAllStore(StoreListReq req) {
+    public List<StoreGetListRes> findAllStore(StoreGetListReq req) {
         return storeMapper.findAllStore(req);
     }
 
-    public StoreGetRes findStoreById(int storeId) {
-        return storeMapper.findStoreById(storeId);
+    public StoreGetRes findStore(int storeId) {
+        return storeMapper.findStoreByStoreId(storeId);
+    }
+
+    public int modifyStore(StorePutReq req, int userId) {
+        StorePutDto storePutDto = StorePutDto.builder()
+                .userId(userId)
+                .storeId(req.getStoreId())
+                .category(req.getCategory())
+                .name(req.getName())
+                .comment(req.getComment())
+                .businessNumber(req.getBusinessNumber())
+                .licensePath(req.getLicensePath())
+                .address(req.getAddress())
+                .build();
+
+        return storeMapper.modifyStoreByUserId(storePutDto);
+    }
+
+    public int removeStore(StoreDeleteReq req) {
+        return storeMapper.deleteStoreByStoreIdAndUserId(req);
     }
 
 }

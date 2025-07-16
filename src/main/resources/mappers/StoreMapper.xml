@@ -14,7 +14,7 @@
     </insert>
 
     <select id="findAllStore">
-        SELECT s.id AS storeId, s.name, s.category
+        SELECT s.id AS storeId, s.name, s.category, s.is_open
         , COUNT(DISTINCT f.user_id, f.store_id) AS likeCount
         , IFNULL(AVG(r.rating), 0) AS avgRating
           FROM stores s
@@ -25,8 +25,8 @@
             <if test="searchText != null and searchText != ''">
             s.name LIKE '%${searchText}%'
             </if>
-            <if test="categoryId != null and categoryId != ''">
-            s.category = #{categoryId}
+            <if test="category != null and category != ''">
+            AND s.category = #{category}
             </if>
         </where>
           GROUP BY s.id;
@@ -35,6 +35,25 @@
     <select id="findStoreByStoreId">
         SELECT *
         FROM stores
-        WHERE store_id = #{storeId}
+        WHERE id = #{storeId}
     </select>
+
+    <update id="modifyStoreByUserId">
+        UPDATE stores
+        SET category = #{category}
+        , name = #{name}
+        , comment = #{comment}
+        , business_number = #{businessNumber}
+        , license_path = #{licensePath}
+        , address = #{address}
+        , tel = #{tel}
+        WHERE id = #{storeId}
+        AND user_id = #{userId}
+    </update>
+
+    <delete id="deleteStoreByStoreIdAndUserId">
+        DELETE FROM stores
+        WHERE id = #{storeId}
+        AND user_id = #{userId}
+    </delete>
 </mapper>
