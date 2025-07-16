@@ -1,6 +1,7 @@
 package kr.co.hanip.cart;
 
-import kr.co.hanip.cart.model.CartGetRes;
+import kr.co.hanip.cart.model.CartDeleteReq;
+import kr.co.hanip.cart.model.CartListGetRes;
 import kr.co.hanip.cart.model.CartPostReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cart")
 @RequiredArgsConstructor
+
 public class CartController {
     private final CartService cartService;
 
@@ -24,7 +26,23 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CartGetRes>> findAll(int userId) {
-        return null;
+    public ResponseEntity<List<CartListGetRes>> findAll(@RequestParam int userId) {
+        log.info(" userId: {}", userId);
+        List<CartListGetRes> result = cartService.findAll(userId);
+        return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity<?> deleteByCartId(@PathVariable int cartId, @RequestParam int userId) {
+        CartDeleteReq req = new CartDeleteReq(cartId, userId);
+        int result = cartService.delete(req);
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteByAllUserId(@RequestParam int userId) {
+        int result = cartService.deleteAll(userId);
+        return ResponseEntity.ok(result);
+    }
+
 }
