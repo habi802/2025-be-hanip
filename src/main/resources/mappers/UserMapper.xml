@@ -24,4 +24,21 @@
         FROM users
         WHERE id = #{userId}
     </select>
+
+    <select id="findPasswordByUserId">
+        SELECT login_pw
+        FROM users
+        WHERE id = #{userId}
+    </select>
+
+    <update id="update">
+        UPDATE users
+        SET name = #{name},
+            login_pw = #{newLoginPw},
+            address = #{address},
+            phone = #{phone},
+            email = #{email},
+            image_path = #{imagePath}
+        WHERE id = #{userId}
+    </update>
 </mapper>

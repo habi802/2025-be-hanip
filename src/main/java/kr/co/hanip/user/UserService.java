@@ -1,9 +1,6 @@
 package kr.co.hanip.user;
 
-import kr.co.hanip.user.model.UserGetRes;
-import kr.co.hanip.user.model.UserLoginReq;
-import kr.co.hanip.user.model.UserLoginRes;
-import kr.co.hanip.user.model.UserPostReq;
+import kr.co.hanip.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,10 +12,19 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserMapper userMapper;
 
-    int join(UserPostReq req) {
+    int join(UserJoinReq req) {
         String hashedPw = BCrypt.hashpw(req.getLoginPw(), BCrypt.gensalt());
 
-        UserPostReq joinReq = new UserPostReq(req.getName(), req.getLoginId(), hashedPw, req.getAddress(), req.getPhone(), req.getEmail(), req.getImagePath(), req.getRole());
+        UserJoinReq joinReq = UserJoinReq.builder()
+                .name(req.getName())
+                .loginId(req.getLoginId())
+                .loginPw(hashedPw)
+                .address(req.getAddress())
+                .phone(req.getPhone())
+                .email(req.getEmail())
+                .imagePath(req.getImagePath())
+                .role(req.getRole())
+                .build();
 
         log.info("user joinReq:{}", joinReq);
         return userMapper.save(joinReq);
@@ -36,5 +42,27 @@ public class UserService {
 
     UserGetRes find(int loggedInUserId) {
         return userMapper.findByUserId(loggedInUserId);
+    }
+
+    Integer update(int loggedInUserId, UserUpdateReq req) {
+        String currentPw = userMapper.findPasswordByUserId(loggedInUserId);
+
+        if (currentPw == null || !BCrypt.checkpw(req.getLoginPw(), currentPw)) {
+            return null;
+        }
+
+        String hashedNewPw = BCrypt.hashpw(req.getNewLoginPw(), BCrypt.gensalt());
+
+        UserUpdateDto dto = UserUpdateDto.builder()
+                .userId(loggedInUserId)
+                .newLoginPw(hashedNewPw)
+                .name(req.getName())
+                .address(req.getAddress())
+                .phone(req.getPhone())
+                .email(req.getEmail())
+                .imagePath(req.getImagePath())
+                .build();
+
+        return userMapper.update(dto);
     }
 }

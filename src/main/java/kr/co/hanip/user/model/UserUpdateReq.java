@@ -1,19 +1,18 @@
 package kr.co.hanip.user.model;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@AllArgsConstructor
+@Builder
 @ToString
-public class UserPostReq {
-    private String name;
-    private String loginId;
+public class UserUpdateReq {
     private String loginPw;
+    private String newLoginPw;
+    private String name;
     private String address;
     private String phone;
     private String email;
     private String imagePath;
-    private String role;
 }
