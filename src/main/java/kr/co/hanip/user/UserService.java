@@ -1,5 +1,6 @@
 package kr.co.hanip.user;
 
+import kr.co.hanip.user.model.UserGetRes;
 import kr.co.hanip.user.model.UserPostReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,5 +20,9 @@ public class UserService {
 
         log.info("user joinReq:{}", joinReq);
         return userMapper.save(joinReq);
+    }
+
+    UserGetRes find(int loggedInUserId) {
+        return userMapper.findByUserId(loggedInUserId);
     }
 }

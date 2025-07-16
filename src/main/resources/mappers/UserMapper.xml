@@ -12,4 +12,10 @@
             image_path = #{imagePath},
             role = #{role}
     </insert>
+
+    <select id="findByUserId">
+        SELECT id, name, login_id, address, phone, email, image_path, role, created
+        FROM users
+        WHERE id = #{userId}
+    </select>
 </mapper>
