@@ -20,4 +20,5 @@ public class StorePutDto {
     private String address;
     private String tel;
     private String ownerName;
+    private String password;
 }

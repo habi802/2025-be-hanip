@@ -36,7 +36,7 @@ public class StoreService {
         if (!BCrypt.checkpw(req.getPassword(), encodePw)) {
             return 0;
         } else {
-            StorePutDto storePutDto = StorePutDto.builder()
+             StorePutDto storePutDto = StorePutDto.builder()
                     .userId(userId)
                     .storeId(req.getStoreId())
                     .category(req.getCategory())
@@ -47,14 +47,21 @@ public class StoreService {
                     .address(req.getAddress())
                     .tel(req.getTel())
                     .ownerName(req.getOwnerName())
+                     .password(req.getPassword())
                     .build();
 
             return storeMapper.modifyStoreByUserId(storePutDto);
         }
     }
 
-    public int removeStore(StoreDeleteReq req) {
-        return storeMapper.deleteStoreByStoreIdAndUserId(req);
+    public int removeStore(StoreDeleteReq req, int userId) {
+        String encodePw = userMapper.findPasswordByUserId(userId);
+        StoreDeleteDto storeDeleteDto = new StoreDeleteDto(req.getStoreId(), userId, req.getPassword());
+        if (!BCrypt.checkpw(req.getPassword(), encodePw)) {
+            return 0;
+        } else {
+            return storeMapper.deleteStoreByStoreIdAndUserId(storeDeleteDto);
+        }
     }
 
 }

@@ -47,6 +47,7 @@
         , license_path = #{licensePath}
         , address = #{address}
         , tel = #{tel}
+        , owner_name = #{ownerName}
         WHERE id = #{storeId}
         AND user_id = #{userId}
     </update>
