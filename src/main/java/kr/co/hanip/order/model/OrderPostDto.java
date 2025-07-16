@@ -9,8 +9,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class OrderPostDto {
-    private int user_id;
-    private int store_id;
+    private int id;
+    private int userId;
+    private int storeId;
     private String address;
     private int amount;
 
