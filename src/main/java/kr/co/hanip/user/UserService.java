@@ -1,6 +1,8 @@
 package kr.co.hanip.user;
 
 import kr.co.hanip.user.model.UserGetRes;
+import kr.co.hanip.user.model.UserLoginReq;
+import kr.co.hanip.user.model.UserLoginRes;
 import kr.co.hanip.user.model.UserPostReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,16 @@ public class UserService {
 
         log.info("user joinReq:{}", joinReq);
         return userMapper.save(joinReq);
+    }
+
+    UserLoginRes login(UserLoginReq req) {
+        UserLoginRes res = userMapper.findByLoginId(req);
+
+        if (res == null || !BCrypt.checkpw(req.getLoginPw(), res.getLoginPw())) {
+            return null;
+        }
+
+        return res;
     }
 
     UserGetRes find(int loggedInUserId) {

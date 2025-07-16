@@ -13,6 +13,12 @@
             role = #{role}
     </insert>
 
+    <select id="findByLoginId">
+        SELECT id, login_pw
+        FROM users
+        WHERE login_id = #{loginId}
+    </select>
+
     <select id="findByUserId">
         SELECT id, name, login_id, address, phone, email, image_path, role, created
         FROM users
