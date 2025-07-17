@@ -1,8 +1,13 @@
+constants:
+  file:
+    directory: /home/download
+
 spring:
   datasource:
-    url: jdbc:mariadb://192.168.0.84/first_project
+    url: jdbc:log4jdbc:mariadb://192.168.0.84/first_project
     username: green1
     password: spring502
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
 mybatis:
   configuration:
