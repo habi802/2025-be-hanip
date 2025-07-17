@@ -5,7 +5,7 @@
     <insert id="SaveQuantity">
         INSERT INTO order_menus (order_id, menu_id, quantity)
         VALUES
-        <foreach collection="menus" item="menu" separator=",">
+        <foreach collection="menuId" item="menu" separator=",">
             (#{orderId}, #{menu.menuId}, #{menu.quantity})
         </foreach>
     </insert>

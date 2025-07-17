@@ -1,9 +1,6 @@
 package kr.co.hanip.order;
 
-import kr.co.hanip.order.model.OrderMenuDto;
-import kr.co.hanip.order.model.OrderMenuPostDto;
-import kr.co.hanip.order.model.OrderPostDto;
-import kr.co.hanip.order.model.OrderPostReq;
+import kr.co.hanip.order.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,8 +43,8 @@ public class OrderService {
 
         // 메뉴 & 수량 리스트로 묶기
         List<OrderMenuDto> menuList = new ArrayList<>();
-        List<Integer> menuIds = req.getMenuId();
-        List<Integer> quantities = req.getQuantity();
+        List<Integer> menuIds = req.getMenuIds();
+        List<Integer> quantities = req.getQuantities();
 
         for (int i = 0; i < menuIds.size(); i++) {
             OrderMenuDto menu = new OrderMenuDto();
@@ -59,7 +56,7 @@ public class OrderService {
         // OrderMenuPostDto 생성
         OrderMenuPostDto orderMenuPostDto = new OrderMenuPostDto();
         orderMenuPostDto.setOrderId(orderPostDto.getId());
-        orderMenuPostDto.setMenus(menuList);
+        orderMenuPostDto.setMenuId(menuList);
 
         log.info("orderMenuPostDto={}", orderMenuPostDto);
 
@@ -75,6 +72,18 @@ public class OrderService {
 
 
     // ------------------주문 조회 GET--------------------
+    public List<OrderGetRes> getOrderList(int userId){
+        return orderMapper.findByOrderIdAndUserId(userId);
+    }
 
+    // ------------------주문상태수정--------------------
+    public int modifyOrderStatus(OrderStatusPatchReq req){
+        return orderMapper.updateStatus(req);
+    }
+
+    // ---------------주문 삭제 ----------------------
+    public int hideByOrderId(int orderId) {
+        return orderMapper.hideByOrderId(orderId);
+    }
 
 }

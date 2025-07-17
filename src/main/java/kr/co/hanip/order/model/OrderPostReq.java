@@ -1,5 +1,6 @@
 package kr.co.hanip.order.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -12,7 +13,8 @@ public class OrderPostReq {
     private int storeId;
     private String address;
     private int amount;
-    private List<Integer> menuId;
-    private List<Integer> quantity;
+    @JsonProperty("menu_ids")
+    private List<Integer> menuIds;
+    private List<Integer> quantities;
 
 }

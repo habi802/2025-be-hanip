@@ -13,5 +13,5 @@ import java.util.List;
 @ToString
 public class OrderMenuPostDto {
     private int orderId;
-    private List<OrderMenuDto> menus;
+    private List<OrderMenuDto> menuId;
 }

@@ -10,15 +10,37 @@
 
     </insert>
 
-    <select id="findByOrderIdAndMemberId">
-        SELECT id, name, address, payment, amount, created
-        FROM orders
-        WHERE id = #{orderId}
-        AND member_id = #{memberId}
+    <!--   요구사항명세서 : 주문조회  -->
+<!--    결제수단 추가예정-->
+    <select id="findByOrderIdAndUserId">
+        SELECT o.id,o.user_id,s.`name`,m.`name` AS menuName ,om.quantity,m.price,o.amount,o.`status`
+        FROM orders o
+        JOIN order_menus om
+        ON o.id = om.order_id
+        LEFT JOIN stores s
+        ON o.store_id = s.id
+        JOIN menus m
+        ON om.menu_id = m.id
+        WHERE o.user_id = #{userId};
+
     </select>
 
+<!--  주문상세조회-->
+<!--일단 위에랑 동일 -->
 
 
+<!--   주문상태변경-->
+    <update id="updateStatus">
+        UPDATE orders
+        SET `status` = #{status}
+        WHERE	id = #{orderId};
+    </update>
+<!-- 주문 삭제 -->
+    <update id="hideByOrderId">
+        UPDATE orders
+        SET is_deleted = 1
+        WHERE	id = #{orderId};
+    </update>
 
 
 </mapper>

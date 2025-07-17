@@ -1,15 +1,17 @@
 package kr.co.hanip.order;
 
 import jakarta.servlet.http.HttpServletRequest;
+import kr.co.hanip.order.model.OrderGetRes;
 import kr.co.hanip.order.model.OrderPostReq;
+import kr.co.hanip.order.model.OrderStatusPatchReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Property;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -34,6 +36,33 @@ public class OrderController {
 
 
     // ----------요구사항명세서 : order-주문조회-------------
+    @GetMapping("/order")
+    //                                                세션으로 바꿀예정
+    public ResponseEntity<?> getOrderListByUserId(@RequestParam int userId) {
+        int logginedMemberId = userId;
+        log.info("userId: {}", userId);
+        List<OrderGetRes> result = orderService.getOrderList(logginedMemberId);
+        return ResponseEntity.ok(result);
+    }
+
+    // ---------- order-주문상세조회-------------
+    //일단 위에랑 같음
+
+
+    // ----------- order-주문상태수정-------------
+    @PatchMapping("/order/status")
+    public ResponseEntity<?> modifyStatus(@RequestBody OrderStatusPatchReq req) {
+        int result = orderService.modifyOrderStatus(req);
+        return ResponseEntity.ok(result);
+    }
+
+
+    // ----------- order-주문삭제 --------------
+    @PatchMapping("/order/{orderId}")
+    public ResponseEntity<?> modifyOrderStatus(@PathVariable int orderId) {
+        int result = orderService.hideByOrderId(orderId);
+        return ResponseEntity.ok(result);
+    }
 
 
 
