@@ -20,12 +20,10 @@ import java.util.List;
 public class StoreController {
     private final StoreService storeService;
 
-    // 가게 등록 (POST)
+//    // 가게 등록 (POST)
 //    @PostMapping
 //    public ResponseEntity<?> saveStore(@RequestBody StorePostReq req, HttpServletRequest httpReq) {
-//        int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-//        log.info("storeSaveDto: {}", req);
-//        int result = storeService.saveStore(req, logginedUserId);
+//        int result = storeService.saveStore(req);
 //        return ResponseEntity.ok(result);
 //    }
 

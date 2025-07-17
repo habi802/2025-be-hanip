@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @Builder
 public class StorePostDto {
-    private int userId;      // FK (user_id)
+    private int userId;
     private String category;
     private String name;
     private String comment;
