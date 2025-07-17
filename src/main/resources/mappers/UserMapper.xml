@@ -34,11 +34,16 @@
     <update id="update">
         UPDATE users
         SET name = #{name},
-            login_pw = #{newLoginPw},
             address = #{address},
             phone = #{phone},
             email = #{email},
             image_path = #{imagePath}
+        WHERE id = #{userId}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE users
+        SET login_pw = #{newLoginPw}
         WHERE id = #{userId}
     </update>
 </mapper>
