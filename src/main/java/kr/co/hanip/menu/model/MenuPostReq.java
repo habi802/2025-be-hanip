@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class MenuPostReq {
     private int id;
+    private int userId;
     private int storeId;
     private String name;
     private String comment;

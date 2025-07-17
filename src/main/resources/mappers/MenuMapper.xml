@@ -5,6 +5,7 @@
     <insert id="menuPost">
         INSERT INTO menus
         SET id = #{id}
+        ,   user_id = #{userId}
         ,   store_id = #{storeId}
         ,   name = #{name}
         ,   comment =#{comment}
@@ -15,6 +16,7 @@
     <select id="menuGetList">
         SELECT id AS menuId, store_id, name, comment, price, image_path
         FROM menus
+        WHERE store_id = #{storeId}
         ORDER BY id DESC
     </select>
 
@@ -27,6 +29,7 @@
     <update id="menuModify">
         UPDATE menus
         SET name = #{name}
+        ,   user_id = #{userId}
         ,   comment =#{comment}
         ,   price = #{price}
         ,   image_path = #{imagePath}
@@ -35,6 +38,7 @@
     <delete id="menuDelete">
         DELETE FROM menus
         WHERE id = #{menuId}
+        AND user_id = #{userId}
     </delete>
 
 

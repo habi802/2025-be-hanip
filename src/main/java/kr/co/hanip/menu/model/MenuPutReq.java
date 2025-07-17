@@ -10,6 +10,7 @@ import lombok.ToString;
 @ToString
 public class MenuPutReq {
     private int menuId;
+    private int userId;
     private String name;
     private String comment;
     private int price;

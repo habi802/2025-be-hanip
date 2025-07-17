@@ -12,9 +12,10 @@ import java.util.List;
 public class MenuService {
     private final MenuMapper menuMapper;
 
-    public int memoPosting(MenuPostReq req){
+    public int memoPosting(MenuPostReq req, int logginedMemberId){
 //        MenuPostReq req2 = new MenuPostReq();
 //        req2.setStoreId();
+        req.setUserId(logginedMemberId);
         return menuMapper.menuPost(req);
     }
 
@@ -24,11 +25,12 @@ public class MenuService {
     public MenuGetRes menuGetOne(int menuId){
         return menuMapper.menuGetOne(menuId);
     }
-    public int menuPut(MenuPutReq req){
+    public int menuPut(MenuPutReq req, int logginedMemberId){
+        req.setUserId(logginedMemberId);
         return menuMapper.menuModify(req);
     }
-    public int menuDelete(int menuId){
-        return menuMapper.menuDelete(menuId);
+    public int menuDelete(MenuDeleteReq req){
+        return menuMapper.menuDelete(req);
     }
 
 }

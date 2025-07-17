@@ -9,8 +9,8 @@ import java.util.List;
 public interface MenuMapper {
     int menuPost(MenuPostReq req);
     int menuModify(MenuPutReq req);
-    int menuDelete(int menuId);
+    int menuDelete(MenuDeleteReq req);
     List<MenuGetListRes> menuGetList(int storeId);
-    MenuGetRes menuGetOne(int id);
+    MenuGetRes menuGetOne(int menuId);
 
 }
