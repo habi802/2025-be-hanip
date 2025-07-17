@@ -55,6 +55,11 @@ public class StoreService {
         }
     }
 
+    public int modifyStoreActive(int storeId, int userId) {
+        return storeMapper.modifyStoreActiveByStoreIdAndUserId(storeId, userId);
+    }
+
+
     public int removeStore(StoreDeleteReq req, int userId) {
         String encodePw = userMapper.findPasswordByUserId(userId);
         StoreDeleteDto storeDeleteDto = new StoreDeleteDto(req.getStoreId(), userId, req.getPassword());

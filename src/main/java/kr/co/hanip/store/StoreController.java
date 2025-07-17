@@ -30,18 +30,18 @@ public class StoreController {
     // 가게 조회 (GET)
     @GetMapping
     public ResponseEntity<ResultResponse<List<StoreGetListRes>>> getStoreList(@ModelAttribute StoreGetListReq req) {
-        log.info("getStoreListReq: {}", req);
+        // log.info("getStoreListReq: {}", req);
         List<StoreGetListRes> storeListRes = storeService.findAllStore(req);
-        log.info("getStoreListRes: {}", storeListRes);
+        // log.info("getStoreListRes: {}", storeListRes);
         return ResponseEntity.ok(ResultResponse.success(storeListRes));
     }
 
     // 가게 상세 조회 (GET)
     @GetMapping("{storeId}")
     public ResponseEntity<ResultResponse<StoreGetRes>> getStoreDetail(@PathVariable int storeId) {
-        log.info("getStoreDetailStoreId: {}", storeId);
+        // log.info("getStoreDetailStoreId: {}", storeId);
         StoreGetRes storeGetRes = storeService.findStore(storeId);
-        log.info("getStoreDetailGetRes: {}", storeGetRes);
+        // log.info("getStoreDetailGetRes: {}", storeGetRes);
         if (storeGetRes != null) {
             return ResponseEntity.ok(ResultResponse.success(storeGetRes));
         } else {
@@ -53,7 +53,7 @@ public class StoreController {
     // 가게 정보 수정 (PUT)
     @PutMapping
     public ResponseEntity<ResultResponse<Integer>> modifyStore(@RequestBody StorePutReq req, HttpServletRequest httpReq) {
-        log.info("modifyReq: {}", req);
+        // log.info("modifyReq: {}", req);
         int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         int result = storeService.modifyStore(req, logginedUserId);
         if (result == 0) {
@@ -63,10 +63,18 @@ public class StoreController {
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
+    // 가게 활성화 수정 (PATCH)
+    @PatchMapping("{storeId}")
+    public ResponseEntity<ResultResponse<Integer>> modifyStoreActive(@PathVariable int storeId, HttpServletRequest httpReq) {
+        int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        int result = storeService.modifyStoreActive(storeId, logginedUserId);
+        return ResponseEntity.ok(ResultResponse.success(result));
+    }
+
     // 가게 삭제 (DELETE)
     @DeleteMapping
     public ResponseEntity<ResultResponse<Integer>> deleteStore(@RequestBody StoreDeleteReq req, HttpServletRequest httpReq) {
-        log.info("deleteReq : {}", req);
+        // log.info("deleteReq : {}", req);
         int logginedUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         int result = storeService.removeStore(req, logginedUserId);
         if (result == 0) {

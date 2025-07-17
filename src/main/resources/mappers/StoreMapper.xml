@@ -61,6 +61,14 @@
         AND user_id = #{userId}
     </update>
 
+    <!-- 가게 활성화 -->
+    <update id="modifyStoreActiveByStoreIdAndUserId">
+        UPDATE stores
+        SET is_active = IF(is_active = 1, 0, 1)
+        WHERE id = #{storeId}
+        AND user_id = #{userId}
+    </update>
+
     <!-- 가게 삭제 -->
     <delete id="deleteStoreByStoreIdAndUserId">
         DELETE FROM stores
