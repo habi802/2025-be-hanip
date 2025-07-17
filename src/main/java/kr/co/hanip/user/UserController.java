@@ -64,6 +64,18 @@ public class UserController {
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
+    @PatchMapping("/password")
+    public ResponseEntity<ResultResponse<Integer>> updatePassword(@RequestBody UserUpdatePasswordReq req, HttpServletRequest httpReq) {
+        int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        Integer result = userService.updatePassword(loggedInUserId, req);
+        if (result == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "비밀번호가 올바르지 않습니다."));
+        }
+        return ResponseEntity.ok(ResultResponse.success(result));
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<ResultResponse<Integer>> logout(HttpServletRequest httpReq) {
         HttpUtils.removeSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);

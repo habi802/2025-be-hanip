@@ -9,7 +9,6 @@ import lombok.ToString;
 @ToString
 public class UserUpdateReq {
     private String loginPw;
-    private String newLoginPw;
     private String name;
     private String address;
     private String phone;
