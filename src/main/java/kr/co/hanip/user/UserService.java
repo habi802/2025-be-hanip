@@ -1,55 +1,33 @@
 package kr.co.hanip.user;
 
-import kr.co.hanip.store.StoreMapper;
-import kr.co.hanip.store.model.StoreAndJoinReq;
-import kr.co.hanip.store.model.StorePostDto;
-import kr.co.hanip.store.model.StorePostReq;
 import kr.co.hanip.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserMapper userMapper;
-    private final StoreMapper storeMapper;
 
-    @Transactional
-    int join(StoreAndJoinReq req) {
-        StorePostReq storeReq = req.getStorePostReq();
-        UserJoinReq userReq = req.getUserJoinReq();
-        String hashedPw = BCrypt.hashpw(userReq.getLoginPw(), BCrypt.gensalt());
+    int join(UserJoinReq req) {
+        String hashedPw = BCrypt.hashpw(req.getLoginPw(), BCrypt.gensalt());
 
-        UserJoinDto dto = UserJoinDto.builder()
-                .name(req.getUserJoinReq().getName())
-                .loginId(req.getUserJoinReq().getLoginId())
+        UserJoinReq joinReq = UserJoinReq.builder()
+                .name(req.getName())
+                .loginId(req.getLoginId())
                 .loginPw(hashedPw)
-                .address(req.getUserJoinReq().getAddress())
-                .phone(req.getUserJoinReq().getPhone())
-                .email(req.getUserJoinReq().getEmail())
-                .imagePath(req.getUserJoinReq().getImagePath())
-                .role(req.getUserJoinReq().getRole())
+                .address(req.getAddress())
+                .phone(req.getPhone())
+                .email(req.getEmail())
+                .imagePath(req.getImagePath())
+                .role(req.getRole())
                 .build();
 
-        log.info("user joinReq:{}", dto);
-        userMapper.save(dto);
-
-        StorePostDto storePostDto = StorePostDto.builder()
-                .userId(dto.getUserId())
-                .category(storeReq.getCategory())
-                .name(storeReq.getName())
-                .comment(storeReq.getComment())
-                .businessNumber(storeReq.getBusinessNumber())
-                .licensePath(storeReq.getLicensePath())
-                .address(storeReq.getAddress())
-                .tel(storeReq.getTel())
-                .ownerName(storeReq.getOwnerName())
-                .build();
-        return storeMapper.save(storePostDto);
+        log.info("user joinReq:{}", joinReq);
+        return userMapper.save(joinReq);
     }
 
     UserLoginRes login(UserLoginReq req) {

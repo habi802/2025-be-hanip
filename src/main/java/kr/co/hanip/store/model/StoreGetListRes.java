@@ -12,6 +12,6 @@ public class StoreGetListRes {
     private String name;
     private String category;
     private int isOpen;
-    private int likeCount;
-    private long avgRating;
+    private int favorites;
+    private long rating;
 }

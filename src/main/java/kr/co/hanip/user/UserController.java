@@ -3,8 +3,6 @@ package kr.co.hanip.user;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.hanip.common.model.ResultResponse;
 import kr.co.hanip.common.util.HttpUtils;
-import kr.co.hanip.store.model.StoreAndJoinReq;
-import kr.co.hanip.store.model.StorePostReq;
 import kr.co.hanip.user.etc.UserConstants;
 import kr.co.hanip.user.model.*;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +19,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<ResultResponse<Integer>> join(@RequestBody StoreAndJoinReq req) {
+    public ResponseEntity<ResultResponse<Integer>> join(@RequestBody UserJoinReq req) {
         //log.info("user-post-req: {}", req);
-        if(req.getUserJoinReq().getRole().equals("CUSTOMER")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
         int result = userService.join(req);
         return ResponseEntity.ok(ResultResponse.success(result));
     }

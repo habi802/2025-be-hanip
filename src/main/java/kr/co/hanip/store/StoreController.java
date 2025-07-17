@@ -60,7 +60,7 @@ public class StoreController {
         int result = storeService.modifyStore(req, logginedUserId);
         if (result == 0) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(ResultResponse.fail(401, "비밀번호가 일치하지 않습니다."));
+                    .body(ResultResponse.fail(401, "비밀번호가 올바르지 않습니다."));
         }
         return ResponseEntity.ok(ResultResponse.success(result));
     }
@@ -73,7 +73,7 @@ public class StoreController {
         int result = storeService.removeStore(req, logginedUserId);
         if (result == 0) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(ResultResponse.fail(401,"비밀번호가 일치하지 않습니다."));
+                    .body(ResultResponse.fail(401,"비밀번호가 올바르지 않습니다."));
         }
         return ResponseEntity.ok(ResultResponse.success(result));
     }
