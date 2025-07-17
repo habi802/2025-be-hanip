@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "kr.co.hanip.cart.CartMapper">
+
+    <insert id="save">
+        INSERT INTO carts
+         set user_id = #{userId}
+           , menu_id = #{menuId}
+           , quantity = #{quantity}
+    </insert>
+
+    <select id="findAllMenuAndUserId">
+        SELECT c.id, c.menu_id, c.quantity, m.name, m.price, m.image_path
+         FROM carts c
+         JOIN menus m
+         ON c.menu_id = m.id
+        WHERE c.user_id = #{userId}
+    </select>
+
+    <delete id="deleteByCartId" >
+        DELETE
+         FROM carts
+        WHERE id = #{cartId}
+            AND user_id = #{userId}
+    </delete>
+
+    <delete id="deleteByAllUserId">
+        DELETE
+         FROM carts
+        WHERE user_id = #{userId}
+    </delete>
+
+</mapper>
