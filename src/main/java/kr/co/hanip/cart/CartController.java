@@ -23,14 +23,6 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
 
-//    @PostMapping
-//    public ResponseEntity<?> save(HttpServletRequest httpReq, @RequestBody CartPostReq req) {
-//        log.info("req: {}", req);
-//        int LoggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-//        req.setUserId(LoggedInUserId);
-//        int result = cartService.save(req);
-//        return ResponseEntity.ok(ResultResponse.success(result));
-//    }
     @PostMapping
     public ResponseEntity<ResultResponse<Integer>> save(HttpServletRequest httpReq, @RequestBody CartPostReq req) {
         log.info("req: {}", req);
@@ -47,23 +39,34 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CartListGetRes>> findAll(@RequestParam int userId) {
+    public ResponseEntity<ResultResponse<List<CartListGetRes>>> findAll(@RequestParam int userId) {
         log.info(" userId: {}", userId);
         List<CartListGetRes> result = cartService.findAll(userId);
-        return ResponseEntity.ok(result);
+        if (result == null || result.size() == 0) {
+            return ResponseEntity.ok(ResultResponse.fail(400, "조회 실패"));
+        }
+        log.info(" result 장바구니 확인용: {}", result.size());
+        return ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @DeleteMapping("/{cartId}")
-    public ResponseEntity<Integer> deleteByCartId(@PathVariable int cartId, @RequestParam int userId) {
+    public ResponseEntity<ResultResponse<Integer>> deleteByCartId(@PathVariable int cartId, @RequestParam int userId) {
         CartDeleteReq req = new CartDeleteReq(cartId, userId);
         int result = cartService.delete(req);
-        return ResponseEntity.ok(result);
+
+        if (result == 1) {
+            return ResponseEntity.ok(ResultResponse.success(result));
+        }
+        return ResponseEntity.ok(ResultResponse.fail(400, "삭제 실패"));
     }
 
     @DeleteMapping
-    public ResponseEntity<Integer> deleteByAllUserId(@RequestParam int userId) {
+    public ResponseEntity<ResultResponse<Integer>> deleteByAllUserId(@RequestParam int userId) {
         int result = cartService.deleteAll(userId);
-        return ResponseEntity.ok(result);
+        if (result == 1) {
+            return ResponseEntity.ok(ResultResponse.success(result));
+        }
+        return ResponseEntity.ok(ResultResponse.fail(400, "삭제 실패"));
     }
 
 }
