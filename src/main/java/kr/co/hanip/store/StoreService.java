@@ -18,10 +18,6 @@ public class StoreService {
     private final UserMapper userMapper;
 
 //    public int saveStore(StorePostReq req) {
-//        StorePostDto storePostDto = StorePostDto.builder()
-//                .userId()
-//                .build();
-//        int result = storeMapper.save(storePostDto);
 //    }
 
     public List<StoreGetListRes> findAllStore(StoreGetListReq req) {
@@ -58,7 +54,6 @@ public class StoreService {
     public int modifyStoreActive(int storeId, int userId) {
         return storeMapper.modifyStoreActiveByStoreIdAndUserId(storeId, userId);
     }
-
 
     public int removeStore(StoreDeleteReq req, int userId) {
         String encodePw = userMapper.findPasswordByUserId(userId);
