@@ -19,4 +19,5 @@ public class StorePutReq {
     private String tel;
     private String password;
     private String ownerName;
+    private String imagePath;
 }
