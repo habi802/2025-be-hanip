@@ -72,18 +72,24 @@ public class OrderService {
 
 
     // ------------------주문 조회 GET--------------------
-    public List<OrderGetRes> getOrderList(int userId){
+    public List<OrderGetRes> getOrderList(int userId) {
         return orderMapper.findByOrderIdAndUserId(userId);
     }
 
     // ------------------주문상태수정--------------------
-    public int modifyOrderStatus(OrderStatusPatchReq req){
+    public int modifyOrderStatus(OrderStatusPatchReq req) {
         return orderMapper.updateStatus(req);
     }
 
     // ---------------주문 삭제 ----------------------
-    public int hideByOrderId(int orderId) {
-        return orderMapper.hideByOrderId(orderId);
+    public int hideByOrderId(int logginedMemberId, int orderId) {
+
+        OrderHidePatchDto orderHidePatchDto = new OrderHidePatchDto();
+        orderHidePatchDto.setUserId(logginedMemberId);
+        orderHidePatchDto.setOrderId(orderId);
+        log.info("orderHidePatchDto={}", orderHidePatchDto);
+
+        return orderMapper.hideByOrderId(orderHidePatchDto);
     }
 
 }

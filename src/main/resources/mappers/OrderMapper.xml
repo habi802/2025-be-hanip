@@ -39,7 +39,8 @@
     <update id="hideByOrderId">
         UPDATE orders
         SET is_deleted = 1
-        WHERE	id = #{orderId};
+        WHERE	id = #{orderId}
+        AND user_id = #{userId};
     </update>
 
 
