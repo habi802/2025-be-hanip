@@ -1,6 +1,5 @@
 package kr.co.hanip.order.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,5 +12,5 @@ import java.util.List;
 @ToString
 public class OrderMenuPostDto {
     private int orderId;
-    private List<OrderMenuDto> menuId;
+    private List<OrderMenuVo> menuId;
 }
