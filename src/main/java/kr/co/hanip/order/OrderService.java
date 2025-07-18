@@ -1,5 +1,7 @@
 package kr.co.hanip.order;
 
+import kr.co.hanip.menu.MenuMapper;
+import kr.co.hanip.menu.model.MenuGetRes;
 import kr.co.hanip.order.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,48 +17,38 @@ import java.util.List;
 public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderMenusMapper orderMenusMapper;
+    private final MenuMapper menuMapper;
 
     // ----------요구사항명세서 : order-주문등록-------------
     @Transactional
     public int saveOrder(OrderPostReq req, int logginedMemberId) {
-        //상품 정보 DB로 부터 가져온다.
-        /* List<MenuListGetRes> menuList = ?menuMapper.?findAllByIdIn(req.?getItemIds());
+        //상품 정보 DB로 부터 가져오기.
+        //List<MenuGetListRes> menuList = menuMapper.menuGetList(req.getMenuIds());
 
 
-        // 구매 총금액 (item 전달 받고 구현예정)
-        long amount = 0;
-        for (?menuGetRes item : menuList) {
-            amount += item.getPrice() - (?menu.get?Price() * menu.get?DiscountPer() / 100);
+        // 구매 총금액 (menu 전달 받고 구현예정)
+        int amount = 0;
+        for (OrderMenuVo item : req.getOrders()) {
+            MenuGetRes menu = menuMapper.menuGetOne(item.getMenuId());
+
+            amount += menu.getPrice() * item.getQuantity();  //수량 x 메뉴가격 예정
         }
         log.info("amount={}", amount);
 
-         */
 
         OrderPostDto orderPostDto = new OrderPostDto();
         orderPostDto.setUserId(logginedMemberId);
         orderPostDto.setStoreId(req.getStoreId());
         orderPostDto.setAddress(req.getAddress());
-        orderPostDto.setAmount(req.getAmount());
+        orderPostDto.setAmount(amount);
         log.info("orderPostDto={}", orderPostDto);
         orderMapper.save(orderPostDto); // 이 시점에 orderPostDto.getId() 사용 가능 (주문 먼저 저장 → ID 채워짐 (Auto Increment)
 
 
-        // 메뉴 & 수량 리스트로 묶기
-        List<OrderMenuDto> menuList = new ArrayList<>();
-        List<Integer> menuIds = req.getMenuIds();
-        List<Integer> quantities = req.getQuantities();
-
-        for (int i = 0; i < menuIds.size(); i++) {
-            OrderMenuDto menu = new OrderMenuDto();
-            menu.setMenuId(menuIds.get(i));
-            menu.setQuantity(quantities.get(i));
-            menuList.add(menu);
-        }
-
-        // OrderMenuPostDto 생성
+        // OrderMenuPostDto 생성 , orders에 등록후 해당 id를 Dto에 담아 orderMenus로 전달
         OrderMenuPostDto orderMenuPostDto = new OrderMenuPostDto();
         orderMenuPostDto.setOrderId(orderPostDto.getId());
-        orderMenuPostDto.setMenuId(menuList);
+        orderMenuPostDto.setMenuId(req.getOrders());
 
         log.info("orderMenuPostDto={}", orderMenuPostDto);
 
