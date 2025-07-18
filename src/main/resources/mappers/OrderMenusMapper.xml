@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.hanip.order.OrderMenusMapper">
+
+    <insert id="SaveQuantity">
+        INSERT INTO order_menus (order_id, menu_id, quantity)
+        VALUES
+        <foreach collection="menuId" item="menu" separator=",">
+            (#{orderId}, #{menu.menuId}, #{menu.quantity})
+        </foreach>
+    </insert>
+
+</mapper>
