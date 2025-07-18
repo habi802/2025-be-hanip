@@ -51,11 +51,8 @@ public class UserService {
             return null;
         }
 
-        String hashedNewPw = BCrypt.hashpw(req.getNewLoginPw(), BCrypt.gensalt());
-
         UserUpdateDto dto = UserUpdateDto.builder()
                 .userId(loggedInUserId)
-                .newLoginPw(hashedNewPw)
                 .name(req.getName())
                 .address(req.getAddress())
                 .phone(req.getPhone())
@@ -64,5 +61,22 @@ public class UserService {
                 .build();
 
         return userMapper.update(dto);
+    }
+
+    Integer updatePassword(int loggedInUserId, UserUpdatePasswordReq req) {
+        String currentPw = userMapper.findPasswordByUserId(loggedInUserId);
+
+        if (currentPw == null || !BCrypt.checkpw(req.getLoginPw(), currentPw)) {
+            return null;
+        }
+
+        String hashedNewPw = BCrypt.hashpw(req.getNewLoginPw(), BCrypt.gensalt());
+
+        UserUpdatePasswordDto dto = UserUpdatePasswordDto.builder()
+                .userId(loggedInUserId)
+                .newLoginPw(hashedNewPw)
+                .build();
+
+        return userMapper.updatePassword(dto);
     }
 }
