@@ -19,7 +19,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/pic/**").addResourceLocations("file:" + uploadPath);
+        registry.addResourceHandler("/pic/**")
+                .addResourceLocations("file:" + uploadPath);
+
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
+
     }
 
     @Override
