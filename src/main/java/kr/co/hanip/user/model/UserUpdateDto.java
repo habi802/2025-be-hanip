@@ -9,7 +9,6 @@ import lombok.ToString;
 @ToString
 public class UserUpdateDto {
     private int userId;
-    private String newLoginPw;
     private String name;
     private String address;
     private String phone;

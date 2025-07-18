@@ -10,4 +10,5 @@ public interface UserMapper {
     UserGetRes findByUserId(int userId);
     String findPasswordByUserId(int userId);
     int update(UserUpdateDto dto);
+    int updatePassword(UserUpdatePasswordDto dto);
 }
