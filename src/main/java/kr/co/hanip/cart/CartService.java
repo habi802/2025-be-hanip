@@ -21,7 +21,7 @@ public class CartService {
     }
 
     public List<CartListGetRes> findAll(int userId) {
-        return cartMapper.findAllMenuAndUserId(userId);
+        return cartMapper.findAllByUserId(userId);
     }
 
     public int delete(CartDeleteReq req) {
@@ -29,7 +29,7 @@ public class CartService {
     }
 
     public int deleteAll(int userId) {
-        return cartMapper.deleteByAllUserId(userId);
+        return cartMapper.deleteByUserId(userId);
     }
 
 }

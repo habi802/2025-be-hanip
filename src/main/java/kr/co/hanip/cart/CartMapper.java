@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface CartMapper {
     int save(CartPostReq req);
-    List<CartListGetRes> findAllMenuAndUserId(int userId);
+    List<CartListGetRes> findAllByUserId(int userId);
     int deleteByCartId(CartDeleteReq req);
-    int deleteByAllUserId(int userId);
+    int deleteByUserId(int userId);
 }
