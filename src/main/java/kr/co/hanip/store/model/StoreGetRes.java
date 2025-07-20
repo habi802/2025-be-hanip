@@ -18,4 +18,6 @@ public class StoreGetRes {
     private String ownerName;
     private int isActive;
     private String imagePath;
+    private String phone;
+    private String email;
 }

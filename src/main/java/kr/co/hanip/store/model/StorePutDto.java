@@ -22,4 +22,6 @@ public class StorePutDto {
     private String ownerName;
     private String password;
     private String imagePath;
+    private String phone;
+    private String email;
 }

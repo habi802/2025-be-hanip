@@ -8,9 +8,9 @@ import java.util.List;
 @Mapper
 public interface StoreMapper {
     int save(StorePostDto req); // 가게등록
-    List<StoreGetListRes> findAllStore(StoreGetListReq req); // 가게전체조회 & 검색
-    StoreGetRes findStoreByStoreId(int storeId); // 가게상세조회
-    int modifyStoreByUserId(StorePutDto dto); // 가게수정
-    int modifyStoreActiveByStoreIdAndUserId(int storeId, int userId); // 가게활성화
-    int deleteStoreByStoreIdAndUserId(StoreDeleteDto req); // 가게삭제
+    List<StoreGetListRes> findAllOrderByStoreId(StoreGetListReq req); // 가게전체조회 & 검색
+    StoreGetRes findByStoreId(int storeId); // 가게상세조회
+    int updateByUserId(StorePutDto dto); // 가게수정
+    int updateIsActiveByStoreIdAndUserId(int storeId, int userId); // 가게활성화
+    int deleteByStoreIdAndUserId(StoreDeleteDto req); // 가게삭제
 }

@@ -17,7 +17,7 @@
     </insert>
 
     <!-- 가게 리스트 조회 -->
-    <select id="findAllStore">
+    <select id="findAllOrderByStoreId">
         SELECT s.id AS storeId, s.name, s.category, s.is_active
         , COUNT(DISTINCT f.user_id, f.store_id) AS favorites
         , IFNULL(AVG(r.rating), 0) AS rating
@@ -33,38 +33,48 @@
             AND s.category = #{category}
             </if>
         </where>
-          GROUP BY s.id;
+        GROUP BY s.id
+        ORDER BY s.id
     </select>
 
     <!-- 가게 상세 조회 -->
-    <select id="findStoreByStoreId">
-        SELECT *
-        FROM stores
-        WHERE id = #{storeId}
+    <select id="findByStoreId">
+        SELECT s.id, s.user_id, s.category, s.name, s.comment,
+        s.address, s.tel, s.owner_name, s.is_active, s.image_path,
+        u.phone, u.email
+        FROM stores s
+        JOIN users u ON u.id = s.user_id
+        WHERE s.id = #{storeId}
     </select>
 
     <!-- 가게 정보 수정 -->
-    <update id="modifyStoreByUserId">
-        UPDATE stores
+    <update id="updateByUserId">
+        UPDATE stores s
+        JOIN users u ON u.id = s.user_id
         <set>
-            category = #{category}
-            , name = #{name}
-            , comment = #{comment}
-            , business_number = #{businessNumber}
-            , license_path = #{licensePath}
-            , address = #{address}
-            , tel = #{tel}
-            , owner_name = #{ownerName}
-            <if test="imagePath != null">
-                , image_path = #{imagePath}
+            s.category = #{category}
+            , s.comment = #{comment}
+            <if test="businessNumber != null">
+            , s.business_number = #{businessNumber}
             </if>
+            <if test="licensePath != null">
+            , s.license_path = #{licensePath}
+            </if>
+            , s.address = #{address}
+            , s.tel = #{tel}
+            , s.owner_name = #{ownerName}
+            <if test="imagePath != null">
+                , s.image_path = #{imagePath}
+            </if>
+            , u.phone = #{phone}
+            , u.email = #{email}
         </set>
-        WHERE id = #{storeId}
+        WHERE s.id = #{storeId}
         AND user_id = #{userId}
     </update>
 
     <!-- 가게 활성화 -->
-    <update id="modifyStoreActiveByStoreIdAndUserId">
+    <update id="updateIsActiveByStoreIdAndUserId">
         UPDATE stores
         SET is_active = IF(is_active = 1, 0, 1)
         WHERE id = #{storeId}
@@ -72,7 +82,7 @@
     </update>
 
     <!-- 가게 삭제 -->
-    <delete id="deleteStoreByStoreIdAndUserId">
+    <delete id="deleteByStoreIdAndUserId">
         DELETE FROM stores
         WHERE id = #{storeId}
         AND user_id = #{userId}
