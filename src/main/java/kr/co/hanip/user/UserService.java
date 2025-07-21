@@ -1,5 +1,6 @@
 package kr.co.hanip.user;
 
+import kr.co.hanip.store.StoreMapper;
 import kr.co.hanip.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserMapper userMapper;
+    private final StoreMapper storeMapper;
 
     int join(UserJoinReq req) {
         String hashedPw = BCrypt.hashpw(req.getLoginPw(), BCrypt.gensalt());
@@ -38,6 +40,9 @@ public class UserService {
         if (res == null || !BCrypt.checkpw(req.getLoginPw(), res.getLoginPw())) {
             return null;
         }
+
+        Integer storeId = storeMapper.findStoreIdByUserId(res.getId());
+        res.setStoreId(storeId == null ? 0 : storeId);
 
         return res;
     }
