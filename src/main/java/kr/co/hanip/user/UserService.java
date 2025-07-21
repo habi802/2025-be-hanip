@@ -19,7 +19,9 @@ public class UserService {
                 .name(req.getName())
                 .loginId(req.getLoginId())
                 .loginPw(hashedPw)
+                .postcode(req.getPostcode())
                 .address(req.getAddress())
+                .addressDetail(req.getAddressDetail())
                 .phone(req.getPhone())
                 .email(req.getEmail())
                 .imagePath(req.getImagePath())
@@ -44,17 +46,19 @@ public class UserService {
         return userMapper.findByUserId(loggedInUserId);
     }
 
-    Integer update(int loggedInUserId, UserUpdateReq req) {
+    Integer update(int loggedInUserId, UserPutReq req) {
         String currentPw = userMapper.findPasswordByUserId(loggedInUserId);
 
         if (currentPw == null || !BCrypt.checkpw(req.getLoginPw(), currentPw)) {
             return null;
         }
 
-        UserUpdateDto dto = UserUpdateDto.builder()
+        UserPutDto dto = UserPutDto.builder()
                 .userId(loggedInUserId)
                 .name(req.getName())
+                .postcode(req.getPostcode())
                 .address(req.getAddress())
+                .addressDetail(req.getAddressDetail())
                 .phone(req.getPhone())
                 .email(req.getEmail())
                 .imagePath(req.getImagePath())
@@ -63,7 +67,7 @@ public class UserService {
         return userMapper.update(dto);
     }
 
-    Integer updatePassword(int loggedInUserId, UserUpdatePasswordReq req) {
+    Integer updatePassword(int loggedInUserId, UserPatchPasswordReq req) {
         String currentPw = userMapper.findPasswordByUserId(loggedInUserId);
 
         if (currentPw == null || !BCrypt.checkpw(req.getLoginPw(), currentPw)) {
@@ -72,7 +76,7 @@ public class UserService {
 
         String hashedNewPw = BCrypt.hashpw(req.getNewLoginPw(), BCrypt.gensalt());
 
-        UserUpdatePasswordDto dto = UserUpdatePasswordDto.builder()
+        UserPatchPasswordDto dto = UserPatchPasswordDto.builder()
                 .userId(loggedInUserId)
                 .newLoginPw(hashedNewPw)
                 .build();

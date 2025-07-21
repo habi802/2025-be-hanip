@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<ResultResponse<Integer>> update(@RequestBody UserUpdateReq req, HttpServletRequest httpReq) {
+    public ResponseEntity<ResultResponse<Integer>> update(@RequestBody UserPutReq req, HttpServletRequest httpReq) {
         int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         Integer result = userService.update(loggedInUserId, req);
         if (result == null) {
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<ResultResponse<Integer>> updatePassword(@RequestBody UserUpdatePasswordReq req, HttpServletRequest httpReq) {
+    public ResponseEntity<ResultResponse<Integer>> updatePassword(@RequestBody UserPatchPasswordReq req, HttpServletRequest httpReq) {
         int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         Integer result = userService.updatePassword(loggedInUserId, req);
         if (result == null) {

@@ -6,7 +6,9 @@
         SET name = #{name},
             login_id = #{loginId},
             login_pw = #{loginPw},
+            postcode = #{postcode},
             address = #{address},
+            address_detail = #{addressDetail},
             phone = #{phone},
             email = #{email},
             image_path = #{imagePath},
@@ -20,7 +22,9 @@
     </select>
 
     <select id="findByUserId">
-        SELECT id, name, login_id, address, phone, email, image_path, role, created
+        SELECT id, name, login_id,
+            postcode, address, address_detail,
+            phone, email, image_path, role, created
         FROM users
         WHERE id = #{userId}
     </select>
@@ -34,7 +38,9 @@
     <update id="update">
         UPDATE users
         SET name = #{name},
+            postcode = #{postcode},
             address = #{address},
+            address_detail = #{address_detail},
             phone = #{phone},
             email = #{email},
             image_path = #{imagePath}

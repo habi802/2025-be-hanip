@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.hanip.store.StoreMapper">
+    <!-- 가게 등록 -->
+    <insert id="save">
+        INSERT INTO stores
+        SET user_id = #{userId}
+        , category = #{category}
+        , name = #{name}
+        , comment = #{comment}
+        , business_number = #{businessNumber}
+        , license_path = #{licensePath}
+        , address = #{address}
+        , tel = #{tel}
+        , owner_name = #{ownerName}
+    </insert>
+
+    <select id="findUserId">
+
+    </select>
+
+    <!-- 가게 리스트 조회 -->
+    <select id="findAllStore">
+        SELECT s.id AS storeId, s.name, s.category, s.is_open
+        , COUNT(DISTINCT f.user_id, f.store_id) AS favorites
+        , IFNULL(AVG(r.rating), 0) AS rating
+          FROM stores s
+          LEFT JOIN favorites f ON s.id = f.store_id
+          LEFT JOIN orders o ON s.id = o.store_id
+          LEFT JOIN reviews r ON o.id = r.order_id
+        <where>
+            <if test="searchText != null and searchText != ''">
+            s.name LIKE '%${searchText}%'
+            </if>
+            <if test="category != null and category != ''">
+            AND s.category = #{category}
+            </if>
+        </where>
+          GROUP BY s.id;
+    </select>
+
+    <!-- 가게 상세 조회 -->
+    <select id="findStoreByStoreId">
+        SELECT *
+        FROM stores
+        WHERE id = #{storeId}
+    </select>
+
+    <!-- 가게 정보 수정 -->
+    <update id="modifyStoreByUserId">
+        UPDATE stores
+        SET category = #{category}
+        , name = #{name}
+        , comment = #{comment}
+        , business_number = #{businessNumber}
+        , license_path = #{licensePath}
+        , address = #{address}
+        , tel = #{tel}
+        , owner_name = #{ownerName}
+        WHERE id = #{storeId}
+        AND user_id = #{userId}
+    </update>
+
+    <!-- 가게 활성화 -->
+    <update id="modifyStoreActiveByStoreIdAndUserId">
+        UPDATE stores
+        SET is_active = IF(is_active = 1, 0, 1)
+        WHERE id = #{storeId}
+        AND user_id = #{userId}
+    </update>
+
+    <!-- 가게 삭제 -->
+    <delete id="deleteStoreByStoreIdAndUserId">
+        DELETE FROM stores
+        WHERE id = #{storeId}
+        AND user_id = #{userId}
+    </delete>
+</mapper>
