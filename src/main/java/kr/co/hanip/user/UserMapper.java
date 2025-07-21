@@ -9,6 +9,6 @@ public interface UserMapper {
     UserLoginRes findByLoginId(UserLoginReq req);
     UserGetRes findByUserId(int userId);
     String findPasswordByUserId(int userId);
-    int update(UserUpdateDto dto);
-    int updatePassword(UserUpdatePasswordDto dto);
+    int update(UserPutDto dto);
+    int updatePassword(UserPatchPasswordDto dto);
 }

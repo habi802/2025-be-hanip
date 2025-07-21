@@ -1,5 +1,6 @@
 package kr.co.hanip.user;
 
+import kr.co.hanip.store.StoreMapper;
 import kr.co.hanip.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserMapper userMapper;
+    private final StoreMapper storeMapper;
 
     int join(UserJoinReq req) {
         String hashedPw = BCrypt.hashpw(req.getLoginPw(), BCrypt.gensalt());
@@ -19,7 +21,9 @@ public class UserService {
                 .name(req.getName())
                 .loginId(req.getLoginId())
                 .loginPw(hashedPw)
+                .postcode(req.getPostcode())
                 .address(req.getAddress())
+                .addressDetail(req.getAddressDetail())
                 .phone(req.getPhone())
                 .email(req.getEmail())
                 .imagePath(req.getImagePath())
@@ -37,6 +41,9 @@ public class UserService {
             return null;
         }
 
+        Integer storeId = storeMapper.findStoreIdByUserId(res.getId());
+        res.setStoreId(storeId == null ? 0 : storeId);
+
         return res;
     }
 
@@ -44,17 +51,19 @@ public class UserService {
         return userMapper.findByUserId(loggedInUserId);
     }
 
-    Integer update(int loggedInUserId, UserUpdateReq req) {
+    Integer update(int loggedInUserId, UserPutReq req) {
         String currentPw = userMapper.findPasswordByUserId(loggedInUserId);
 
         if (currentPw == null || !BCrypt.checkpw(req.getLoginPw(), currentPw)) {
             return null;
         }
 
-        UserUpdateDto dto = UserUpdateDto.builder()
+        UserPutDto dto = UserPutDto.builder()
                 .userId(loggedInUserId)
                 .name(req.getName())
+                .postcode(req.getPostcode())
                 .address(req.getAddress())
+                .addressDetail(req.getAddressDetail())
                 .phone(req.getPhone())
                 .email(req.getEmail())
                 .imagePath(req.getImagePath())
@@ -63,7 +72,7 @@ public class UserService {
         return userMapper.update(dto);
     }
 
-    Integer updatePassword(int loggedInUserId, UserUpdatePasswordReq req) {
+    Integer updatePassword(int loggedInUserId, UserPatchPasswordReq req) {
         String currentPw = userMapper.findPasswordByUserId(loggedInUserId);
 
         if (currentPw == null || !BCrypt.checkpw(req.getLoginPw(), currentPw)) {
@@ -72,7 +81,7 @@ public class UserService {
 
         String hashedNewPw = BCrypt.hashpw(req.getNewLoginPw(), BCrypt.gensalt());
 
-        UserUpdatePasswordDto dto = UserUpdatePasswordDto.builder()
+        UserPatchPasswordDto dto = UserPatchPasswordDto.builder()
                 .userId(loggedInUserId)
                 .newLoginPw(hashedNewPw)
                 .build();
