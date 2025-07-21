@@ -35,6 +35,7 @@ public class UserController {
         }
 
         HttpUtils.setSession(httpReq, UserConstants.LOGGED_IN_USER_ID, result.getId());
+        HttpUtils.setSession(httpReq, UserConstants.USER_STORE_ID, result.getStoreId());
 
         return ResponseEntity.ok(ResultResponse.success(result));
     }
