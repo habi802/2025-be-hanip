@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class UserUpdateReq {
+public class UserPutReq {
     private String loginPw;
     private String name;
     private String address;

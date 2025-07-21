@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UserUpdatePasswordDto {
+public class UserPatchPasswordDto {
     private int userId;
     private String newLoginPw;
 }

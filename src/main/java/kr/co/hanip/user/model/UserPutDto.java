@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class UserUpdateDto {
+public class UserPutDto {
     private int userId;
     private String name;
     private String address;
