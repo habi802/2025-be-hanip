@@ -22,7 +22,6 @@
         JOIN menus m
         ON om.menu_id = m.id
         WHERE o.user_id = #{userId};
-
     </select>
 
 <!--  주문상세조회-->

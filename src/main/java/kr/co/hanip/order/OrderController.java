@@ -41,7 +41,7 @@ public class OrderController {
     // ----------요구사항명세서 : order-주문조회-------------
     @GetMapping("/order")
     public ResponseEntity<ResultResponse<List<OrderGetRes>>> getOrderListByUserId(HttpServletRequest httpReq) {
-        int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        int logginedMemberId = 2; // (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         log.info("userId: {}", logginedMemberId);
         List<OrderGetRes> result = orderService.getOrderList(logginedMemberId);
         return ResponseEntity.ok(ResultResponse.success(result));
