@@ -47,6 +47,12 @@
         WHERE s.id = #{storeId}
     </select>
 
+    <select id="findStoreIdByUserId">
+        SELECT id
+        FROM stores
+        WHERE user_id = #{userId}
+    </select>
+
     <!-- 가게 정보 수정 -->
     <update id="updateByUserId">
         UPDATE stores s
