@@ -66,7 +66,7 @@
     <update id="updateOwnerComment">
         UPDATE reviews
         SET owner_comment = #{ownerComment}
-        WHERE review_id = #{reviewId}
+        WHERE id = #{reviewId}
     </update>
 
     <!-- 리뷰 삭제 -->
