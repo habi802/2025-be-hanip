@@ -10,9 +10,8 @@ import lombok.ToString;
 
 public class ReviewPostReq {
     private int userId;
-    private int storeId;
-    private int reviewId;
-    private int rating;
-    private String imagePath;
+    private int orderId;
+    private double rating;
     private String comment;
+    private String imagePath;
 }
