@@ -22,7 +22,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<ResultResponse<Integer>> reviewCreate(@RequestBody ReviewPostReq req, HttpServletRequest httpReq) {
+    public ResponseEntity<ResultResponse<Integer>> save(@RequestBody ReviewPostReq req, HttpServletRequest httpReq) {
         Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         if (loggedInUserId == null) {
             return ResponseEntity
@@ -30,7 +30,7 @@ public class ReviewController {
                     .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
         }
 
-        int result = reviewService.reviewCreate(req, loggedInUserId);
+        int result = reviewService.save(req, loggedInUserId);
         return result == 0
                 ? ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)

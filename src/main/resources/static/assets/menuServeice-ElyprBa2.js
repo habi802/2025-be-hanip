@@ -1,0 +1,1 @@
+import{B as e}from"./index-BApO7zGL.js";e.defaults.baseURL="http://localhost:8080/api";const r=t=>e.get(`/store/${t}`).catch(s=>s.response),n=()=>e.get("/store").catch(t=>t.response);e.defaults.baseURL="http://localhost:8080/api";const a="/menu",c=t=>e.get(`${a}/${t}`).catch(s=>s.response),p=t=>e.get(a,{params:t}).catch(s=>s.response);export{c as a,n as b,p as c,r as g};
