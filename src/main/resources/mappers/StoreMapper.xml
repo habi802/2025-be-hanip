@@ -47,6 +47,7 @@
         WHERE s.id = #{storeId}
     </select>
 
+    <!-- 가게 아이디 조회  -->
     <select id="findStoreIdByUserId">
         SELECT id
         FROM stores
