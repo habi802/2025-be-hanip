@@ -58,7 +58,7 @@ public class StoreController {
                                                                @RequestPart StorePutReq data,HttpServletRequest httpReq) {
         log.info("img: {}", img);
         log.info("data: {}", data);
-        int loggedInUserId = 2; // (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         int result = storeService.modifyStore(img, data, loggedInUserId);
         if (result == 0) {
             return ResponseEntity
