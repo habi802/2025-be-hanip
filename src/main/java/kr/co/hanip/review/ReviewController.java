@@ -7,6 +7,8 @@ import kr.co.hanip.review.model.*;
 import kr.co.hanip.user.etc.UserConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,12 +22,20 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResultResponse<Integer> reviewCreate(HttpServletRequest httpReq, @RequestBody ReviewPostReq req) {
-        Integer userId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        if (userId == null) return ResultResponse.fail(401, "로그인 후 이용해주세요");
+    public ResponseEntity<ResultResponse<Integer>> reviewCreate(@RequestBody ReviewPostReq req, HttpServletRequest httpReq) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
 
-        int result = reviewService.reviewCreate(req, userId);
-        return result == 0 ? ResultResponse.fail(400, "리뷰 등록 실패") : ResultResponse.success(result);
+        int result = reviewService.reviewCreate(req, loggedInUserId);
+        return result == 0
+                ? ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ResultResponse.fail(400, "등록 실패"))
+                : ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @GetMapping
