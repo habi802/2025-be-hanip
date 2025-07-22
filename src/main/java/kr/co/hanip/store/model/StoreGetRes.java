@@ -16,5 +16,8 @@ public class StoreGetRes {
     private String address;
     private String tel;
     private String ownerName;
-    private int isOpen;
+    private int isActive;
+    private String imagePath;
+    private String phone;
+    private String email;
 }

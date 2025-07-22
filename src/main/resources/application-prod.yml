@@ -4,7 +4,7 @@ constants:
 
 spring:
   datasource:
-    url: jdbc:mariadb://192.168.0.84/first_project
+    url: jdbc:mariadb://112.222.157.157:5011/first_project
     username: green1
     password: spring502
     driver-class-name: org.mariadb.jdbc.Driver
