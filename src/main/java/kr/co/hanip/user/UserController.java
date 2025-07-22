@@ -20,9 +20,12 @@ public class UserController {
 
     @PostMapping("/join")
     public ResponseEntity<ResultResponse<Integer>> join(@RequestBody UserJoinReq req) {
-        //log.info("user-post-req: {}", req);
         int result = userService.join(req);
-        return ResponseEntity.ok(ResultResponse.success(result));
+        return result == 0
+                ? ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ResultResponse.fail(400, "등록 실패"))
+                : ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @PostMapping("/login")
@@ -42,39 +45,69 @@ public class UserController {
 
     @GetMapping("/check")
     public ResponseEntity<ResultResponse<Integer>> check(HttpServletRequest httpReq) {
-        int result = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        return ResponseEntity.ok(ResultResponse.success(result));
+        Integer result = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        return result == 0
+                ? ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ResultResponse.fail(400, "로그인 체크 실패"))
+                : ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @GetMapping
     public ResponseEntity<ResultResponse<UserGetRes>> find(HttpServletRequest httpReq) {
-        int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
         UserGetRes result = userService.find(loggedInUserId);
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @PutMapping
     public ResponseEntity<ResultResponse<Integer>> update(@RequestBody UserPutReq req, HttpServletRequest httpReq) {
-        int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
         Integer result = userService.update(loggedInUserId, req);
         if (result == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(ResultResponse.fail(401, "비밀번호가 올바르지 않습니다."));
         }
-        return ResponseEntity.ok(ResultResponse.success(result));
+        return result == 0
+                ? ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ResultResponse.fail(400, "수정 실패"))
+                : ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @PatchMapping("/password")
     public ResponseEntity<ResultResponse<Integer>> updatePassword(@RequestBody UserPatchPasswordReq req, HttpServletRequest httpReq) {
-        int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
         Integer result = userService.updatePassword(loggedInUserId, req);
         if (result == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(ResultResponse.fail(401, "비밀번호가 올바르지 않습니다."));
         }
-        return ResponseEntity.ok(ResultResponse.success(result));
+        return result == 0
+                ? ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ResultResponse.fail(400, "수정 실패"))
+                : ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @PostMapping("/logout")
