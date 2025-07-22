@@ -8,9 +8,11 @@ import java.util.List;
 @Mapper
 public interface ReviewMapper {
     int save(ReviewPostReq req);
-    ReviewGetRes reviewGet(int reviewId);
-    List<ReviewGetListRes> reviewGetList(int storeId);
-    int reviewModify(ReviewPutReq req);
-    int reviewDelete(ReviewDeleteReq req);
+    List<ReviewGetRes> findAllByStoreIdOrderByIdDesc(int storeId);
+    List<ReviewGetRes> findAllByUserIdOrderByIdDesc(int userId);
+    //ReviewGetRes reviewGet(int reviewId);
+    Integer findByReviewIdAndStoreId(ReviewPatchDto dto);
+    int updateOwnerComment(ReviewPatchReq req);
+    int delete(ReviewDeleteDto req);
 
 }

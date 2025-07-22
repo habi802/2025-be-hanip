@@ -46,10 +46,10 @@ public class UserController {
     @GetMapping("/check")
     public ResponseEntity<ResultResponse<Integer>> check(HttpServletRequest httpReq) {
         Integer result = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        return result == 0
+        return result == null
                 ? ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body(ResultResponse.fail(400, "로그인 체크 실패"))
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(ResultResponse.fail(401, "로그인 후 이용해주세요."))
                 : ResponseEntity.ok(ResultResponse.success(result));
     }
 

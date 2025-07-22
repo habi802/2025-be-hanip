@@ -1,10 +1,11 @@
 package kr.co.hanip.review.model;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class ReviewGetListRes {
+@Builder
+public class ReviewPatchDto {
     private int reviewId;
+    private int storeId;
 }
