@@ -57,22 +57,44 @@ public class ReviewController {
 //        return res == null ? ResultResponse.fail(404, "리뷰 없음") : ResultResponse.success(res);
 //    }
 
-    @PutMapping
-    public ResultResponse<Integer> reviewUpdate(HttpServletRequest httpReq, @RequestBody ReviewPutReq req) {
-        Integer userId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        if (userId == null) return ResultResponse.fail(401, "로그인 후 이용해주세요");
+    @PatchMapping("/owner")
+    public ResponseEntity<ResultResponse<Integer>> updateOwnerComment(@RequestBody ReviewPatchReq req, HttpServletRequest httpReq) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
 
-        int result = reviewService.reviewUpdate(req, userId);
-        return result == 0 ? ResultResponse.fail(400, "리뷰 수정 실패") : ResultResponse.success(result);
+        Integer storeId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.USER_STORE_ID);
+        if (storeId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "이용할 수 없습니다."));
+        }
+
+        Integer result = reviewService.updateOwnerComment(req, storeId);
+        return result == null || result == 0
+                ? ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ResultResponse.fail(400, "수정 실패"))
+                : ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResultResponse<Integer> reviewDelete(HttpServletRequest httpReq, @PathVariable int reviewId) {
-        Integer userId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        if (userId == null) return ResultResponse.fail(401, "로그인 후 이용해주세요");
+    public ResponseEntity<ResultResponse<Integer>> delete(@PathVariable int reviewId, HttpServletRequest httpReq) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
 
-        ReviewDeleteReq req = new ReviewDeleteReq(reviewId);
-        int result = reviewService.reviewDelete(req);
-        return result == 0 ? ResultResponse.fail(400, "리뷰 삭제 실패") : ResultResponse.success(result);
+        int result = reviewService.delete(reviewId, loggedInUserId);
+        return result == 0
+                ? ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(ResultResponse.fail(400, "삭제 실패"))
+                : ResponseEntity.ok(ResultResponse.success(result));
     }
 }

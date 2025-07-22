@@ -3,7 +3,7 @@
 <mapper namespace = "kr.co.hanip.review.ReviewMapper">
     <!-- 등록 -->
     <insert id="save">
-        INSERT INTO review
+        INSERT INTO reviews
         SET user_id = #{userId},
             order_id = #{orderId},
             rating = #{rating},
@@ -46,25 +46,33 @@
     </select>
 
     <!-- 리뷰 상세 조회 -->
-    <select id="findByReviewId">
-        SELECT id, store_id, user_id, rating, comment, created_at
-        FROM review
-        WHERE id = #{reviewId}
+<!--    <select id="findByReviewId">-->
+<!--        SELECT id, store_id, user_id, rating, comment, created_at-->
+<!--        FROM review-->
+<!--        WHERE id = #{reviewId}-->
+<!--    </select>-->
+
+    <!-- 사장 답글 등록 전 본인 가게인지 검증 -->
+    <select id="findByReviewIdAndStoreId">
+        SELECT r.id
+        FROM reviews r
+        JOIN orders o
+        ON o.id = r.order_id
+        WHERE r.id = #{reviewId}
+        AND o.store_id = #{storeId}
     </select>
 
-    <!-- 리뷰 수정 -->
-    <update id="reviewModify" parameterType="kr.co.hanip.review.model.ReviewPutReq">
-        UPDATE review
-        SET rating = #{rating}, comment = #{comment}
-        WHERE id = #{reviewId} AND user_id = #{userId}
+    <!-- 사장 답글 등록 -->
+    <update id="updateOwnerComment">
+        UPDATE reviews
+        SET owner_comment = #{ownerComment}
+        WHERE review_id = #{reviewId}
     </update>
 
-    <!-- 사장 답글 등록 -->
-
     <!-- 리뷰 삭제 -->
-    <delete id="reviewDelete" parameterType="kr.co.hanip.review.model.ReviewDeleteReq">
-        DELETE FROM review
-        WHERE id = #{reviewId} AND user_id = #{userId}
+    <delete id="delete">
+        DELETE FROM reviews
+        WHERE id = #{reviewId}
+        AND user_id = #{userId}
     </delete>
-
 </mapper>
