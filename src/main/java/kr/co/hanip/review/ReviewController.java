@@ -38,17 +38,24 @@ public class ReviewController {
                 : ResponseEntity.ok(ResultResponse.success(result));
     }
 
-    @GetMapping
-    public ResultResponse<ReviewGetRes> reviewGet(@RequestParam int reviewId) {
-        ReviewGetRes res = reviewService.reviewGet(reviewId);
-        return res == null ? ResultResponse.fail(404, "리뷰 없음") : ResultResponse.success(res);
+    @GetMapping("/store/{storeId}")
+    public ResponseEntity<ResultResponse<List<ReviewGetRes>>> findAllByStoreId(@PathVariable int storeId) {
+        List<ReviewGetRes> result = reviewService.findAllByStoreId(storeId);
+        return ResponseEntity.ok(ResultResponse.success(result));
     }
 
-    @GetMapping("/store/{storeId}")
-    public ResultResponse<List<ReviewGetListRes>> reviewList(@PathVariable int storeId) {
-        List<ReviewGetListRes> res = reviewService.reviewList(storeId);
-        return (res == null || res.isEmpty()) ? ResultResponse.fail(404, "리뷰 없음") : ResultResponse.success(res);
+    @GetMapping
+    public ResponseEntity<ResultResponse<List<ReviewGetRes>>> findAllByUserId(HttpServletRequest httpReq) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        List<ReviewGetRes> result = reviewService.findAllByUserId(loggedInUserId);
+        return ResponseEntity.ok(ResultResponse.success(result));
     }
+
+//    @GetMapping
+//    public ResultResponse<ReviewGetRes> reviewGet(@RequestParam int reviewId) {
+//        ReviewGetRes res = reviewService.reviewGet(reviewId);
+//        return res == null ? ResultResponse.fail(404, "리뷰 없음") : ResultResponse.success(res);
+//    }
 
     @PutMapping
     public ResultResponse<Integer> reviewUpdate(HttpServletRequest httpReq, @RequestBody ReviewPutReq req) {
