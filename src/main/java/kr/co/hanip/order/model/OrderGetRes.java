@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Property;
 @Getter
 @ToString
 public class OrderGetRes {
-    private int orderId; // o.id
+    private int id; // o.id
     private int userId; // o.user_id
     private String storeName; //s.`name`
     private String menuName; // m.`name`
