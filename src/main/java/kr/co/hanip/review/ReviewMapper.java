@@ -10,8 +10,9 @@ public interface ReviewMapper {
     int save(ReviewPostReq req);
     List<ReviewGetRes> findAllByStoreIdOrderByIdDesc(int storeId);
     List<ReviewGetRes> findAllByUserIdOrderByIdDesc(int userId);
-    ReviewGetRes reviewGet(int reviewId);
-    int reviewModify(ReviewPutReq req);
-    int reviewDelete(ReviewDeleteReq req);
+    //ReviewGetRes reviewGet(int reviewId);
+    Integer findByReviewIdAndStoreId(ReviewPatchDto dto);
+    int updateOwnerComment(ReviewPatchReq req);
+    int delete(ReviewDeleteDto req);
 
 }

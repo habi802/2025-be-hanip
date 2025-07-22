@@ -1,12 +1,11 @@
 package kr.co.hanip.review.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
-@Setter
-@AllArgsConstructor
-public class ReviewDeleteReq {
+public class ReviewPatchReq {
     private int reviewId;
+    private String ownerComment;
 }

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -28,16 +27,30 @@ public class ReviewService {
         return reviewMapper.findAllByUserIdOrderByIdDesc(loggedInUserId);
     }
 
-    public ReviewGetRes reviewGet(int reviewId) {
-        return reviewMapper.reviewGet(reviewId);
+//    public ReviewGetRes reviewGet(int reviewId) {
+//        return reviewMapper.reviewGet(reviewId);
+//    }
+
+    public Integer updateOwnerComment(ReviewPatchReq req, int storeId) {
+        ReviewPatchDto dto = ReviewPatchDto.builder()
+                .reviewId(req.getReviewId())
+                .storeId(storeId)
+                .build();
+        Integer checkReviewId = reviewMapper.findByReviewIdAndStoreId(dto);
+
+        if (checkReviewId == null) {
+            return null;
+        }
+
+        return reviewMapper.updateOwnerComment(req);
     }
 
-    public int reviewUpdate(ReviewPutReq req, int userId) {
-        req.setUserId(userId);
-        return reviewMapper.reviewModify(req);
-    }
+    public int delete(int reviewId, int loggedInUserId) {
+        ReviewDeleteDto dto = ReviewDeleteDto.builder()
+                .reviewId(reviewId)
+                .userId(loggedInUserId)
+                .build();
 
-    public int reviewDelete(ReviewDeleteReq req) {
-        return reviewMapper.reviewDelete(req);
+        return reviewMapper.delete(dto);
     }
 }
