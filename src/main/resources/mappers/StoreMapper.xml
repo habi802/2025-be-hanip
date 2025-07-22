@@ -21,7 +21,7 @@
 
     <!-- 가게 리스트 조회 -->
     <select id="findAllStore">
-        SELECT s.id AS storeId, s.name, s.category, s.is_open
+        SELECT s.id AS storeId, s.name, s.category, s.is_active
         , COUNT(DISTINCT f.user_id, f.store_id) AS favorites
         , IFNULL(AVG(r.rating), 0) AS rating
           FROM stores s
