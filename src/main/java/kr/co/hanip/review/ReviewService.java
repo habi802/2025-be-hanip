@@ -12,7 +12,7 @@ import java.util.List;
 public class ReviewService {
     private final ReviewMapper reviewMapper;
 
-    public int reviewCreate(ReviewPostReq req, int loggedInUserId) {
+    public int save(ReviewPostReq req, int loggedInUserId) {
         req.setUserId(loggedInUserId);
         return reviewMapper.save(req);
     }
