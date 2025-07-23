@@ -1,8 +1,10 @@
 package kr.co.hanip.menu;
 
+import kr.co.hanip.common.util.MyFileUtils;
 import kr.co.hanip.menu.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,11 +13,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuService {
     private final MenuMapper menuMapper;
+    private final MyFileUtils myFileUtils;
 
-    public int memoPosting(MenuPostReq req, int logginedMemberId){
+    public int memoPosting(MultipartFile img, MenuPostReq req, int logginedMemberId){
 //        MenuPostReq req2 = new MenuPostReq();
 //        req2.setStoreId();
+        String savedMenuFileName = myFileUtils.makeRandomFileName(img);
+        req.setImagePath(savedMenuFileName);
         req.setUserId(logginedMemberId);
+        String directoryPath = String.format("/menu/%d",req.getId());
+        myFileUtils.makeFolders(directoryPath);
+
+        String savePathFileName = directoryPath + "/" + savedMenuFileName;
+        try{
+            myFileUtils.transferTo(img,savePathFileName);
+        } catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+
         return menuMapper.menuPost(req);
     }
 
