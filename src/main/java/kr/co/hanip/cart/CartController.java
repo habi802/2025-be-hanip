@@ -3,6 +3,7 @@ package kr.co.hanip.cart;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.hanip.cart.model.CartDeleteReq;
 import kr.co.hanip.cart.model.CartListGetRes;
+import kr.co.hanip.cart.model.CartPatchReq;
 import kr.co.hanip.cart.model.CartPostReq;
 import kr.co.hanip.common.model.ResultResponse;
 import kr.co.hanip.common.util.HttpUtils;
@@ -49,6 +50,19 @@ public class CartController {
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
+    @PatchMapping
+    public ResponseEntity<ResultResponse<Integer>> updateQuantity(HttpServletRequest httpReq, @RequestBody CartPatchReq req) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
+        int result = cartService.updateQuantity(req, loggedInUserId);
+        return ResponseEntity.ok(ResultResponse.success(result));
+    }
+
     @DeleteMapping("/{cartId}")
     public ResponseEntity<ResultResponse<Integer>> deleteByCartId(HttpServletRequest httpReq, @PathVariable int cartId) {
         Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
@@ -68,8 +82,15 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ResultResponse<Integer>> deleteByAllUserId(@RequestParam int userId) {
-        int result = cartService.deleteAll(userId);
+    public ResponseEntity<ResultResponse<Integer>> deleteByAllUserId(HttpServletRequest httpReq) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
+        int result = cartService.deleteAll(loggedInUserId);
         if (result == 1) {
             return ResponseEntity.ok(ResultResponse.success(result));
         }
