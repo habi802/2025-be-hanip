@@ -46,9 +46,9 @@ public class MenuController {
 
     // 로그인 세션 가게 메뉴 조회
     @GetMapping("/owner")
-    public ResultResponse<List<MenuGetListRes>> menuGetting(@PathVariable HttpServletRequest httpReq) {
+    public ResultResponse<List<MenuGetListRes>> menuGetting(HttpServletRequest httpReq) {
         int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        List<MenuGetListRes> result = menuService.menuGetList(logginedMemberId);
+        List<MenuGetListRes> result = menuService.findByUserId(logginedMemberId);
         if(result == null || result.size() == 0){
             return ResultResponse.fail(400,"메뉴 리스트 조회 실패");
         }

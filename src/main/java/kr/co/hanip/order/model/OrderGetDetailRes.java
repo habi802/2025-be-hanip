@@ -11,6 +11,7 @@ import java.util.List;
 @ToString
 public class OrderGetDetailRes {
     private int id; // o.id
+    private int storeId;
     private int userId; // o.user_id
     private String storeName; //s.`name`
     private String userName;

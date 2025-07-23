@@ -33,4 +33,8 @@ public class MenuService {
         return menuMapper.menuDelete(req);
     }
 
+    public List<MenuGetListRes> findByUserId(int userId){
+        return menuMapper.findByUserId(userId);
+    }
+
 }

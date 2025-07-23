@@ -41,6 +41,12 @@
         AND user_id = #{userId}
     </delete>
 
+    <select id="findByUserId">
+        SELECT id AS menuId, store_id, name, comment, price, image_path
+        FROM menus
+        WHERE user_id = #{userId}
+        ORDER BY id DESC
+    </select>
 
 
 
