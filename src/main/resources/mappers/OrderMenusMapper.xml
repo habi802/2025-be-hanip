@@ -10,4 +10,13 @@
         </foreach>
     </insert>
 
+    <select id="findAllByOrderId">
+        SELECT m.order_id, m.menu_id, m.quantity, s.name, s.price
+        FROM order_menus m
+        JOIN orders o ON o.id = m.order_id
+        JOIN menus s ON s.id = m.menu_id
+        WHERE order_id = #{orderId};
+
+    </select>
+
 </mapper>

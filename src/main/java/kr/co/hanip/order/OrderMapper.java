@@ -1,9 +1,6 @@
 package kr.co.hanip.order;
 
-import kr.co.hanip.order.model.OrderGetRes;
-import kr.co.hanip.order.model.OrderHidePatchDto;
-import kr.co.hanip.order.model.OrderPostDto;
-import kr.co.hanip.order.model.OrderStatusPatchReq;
+import kr.co.hanip.order.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,4 +11,5 @@ public interface OrderMapper {
     List<OrderGetRes> findByOrderIdAndUserId(int userId);
     int updateStatus(OrderStatusPatchReq req);
     int hideByOrderId(OrderHidePatchDto orderHidePatchDto);
+    OrderGetDetailRes findOrderByStoreId(int storeId);
 }

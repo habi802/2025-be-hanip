@@ -84,4 +84,12 @@ public class OrderService {
         return orderMapper.hideByOrderId(orderHidePatchDto);
     }
 
+    public OrderGetDetailRes findByStoreId(int storeId) {
+        OrderGetDetailRes orderGetDetailRes = orderMapper.findOrderByStoreId(storeId);
+        List<OrderMenuDto> menus = orderMenusMapper.findAllByOrderId(orderGetDetailRes.getId());
+        orderGetDetailRes.setMenus(menus);
+        log.info("menus: {}", menus);
+        return orderGetDetailRes;
+
+    }
 }
