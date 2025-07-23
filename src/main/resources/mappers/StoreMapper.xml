@@ -47,6 +47,16 @@
         WHERE s.id = #{storeId}
     </select>
 
+    <!-- 사장 가게 상세 조회 -->
+    <select id="findByUserId">
+        SELECT s.id, s.user_id, s.category, s.name, s.comment,
+        s.address, s.tel, s.owner_name, s.is_active, s.image_path,
+        u.phone, u.email
+        FROM stores s
+        JOIN users u ON u.id = s.user_id
+        WHERE s.user_id = #{userId}
+    </select>
+
     <!-- 가게 아이디 조회  -->
     <select id="findStoreIdByUserId">
         SELECT id
