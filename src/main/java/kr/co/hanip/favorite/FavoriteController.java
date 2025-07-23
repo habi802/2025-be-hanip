@@ -1,0 +1,44 @@
+package kr.co.hanip.favorite;
+
+import jakarta.servlet.http.HttpServletRequest;
+import kr.co.hanip.common.model.ResultResponse;
+import kr.co.hanip.common.util.HttpUtils;
+import kr.co.hanip.favorite.model.FavoriteGetRes;
+import kr.co.hanip.favorite.model.FavoritePostReq;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Slf4j
+@RestController
+@RequestMapping("/api/favorite")
+@RequiredArgsConstructor
+public class FavoriteController {
+    private final FavoriteService favoriteService;
+
+    @PostMapping
+    public ResultResponse<Integer> save(@RequestBody FavoritePostReq req, HttpServletRequest httpReq) {
+        int userId = (int) HttpUtils.getSessionValue(httpReq, "user_Id");
+        log.info("userId: {}", userId);
+
+        req.setUserId(userId);
+        int result = favoriteService.save(req);
+        return ResultResponse.success(result);
+    }
+
+    @GetMapping
+    public ResultResponse<List<FavoriteGetRes>> findAll(HttpServletRequest httpReq) {
+        int userId = (int) HttpUtils.getSessionValue(httpReq, "user_id");
+        return ResultResponse.success(favoriteService.findAll(userId));
+    }
+
+    @DeleteMapping("/{store_id}")
+    public ResultResponse<Integer> delete(HttpServletRequest httpReq, @PathVariable("store_id") int storeId) {
+        int userId = (int) HttpUtils.getSessionValue(httpReq, "user_id");
+        return ResultResponse.success(favoriteService.delete(userId, storeId));
+    }
+}
+
+
