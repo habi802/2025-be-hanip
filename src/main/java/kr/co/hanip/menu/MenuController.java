@@ -59,9 +59,9 @@ public class MenuController {
 
     @PutMapping
     public ResultResponse<Integer> memoPutting(HttpServletRequest httpReq,@RequestBody MenuPutReq req){
-        Integer logginedMemberId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         int result = menuService.menuPut(req,logginedMemberId);
-        if(result == 0|| logginedMemberId == null){
+        if(result == 0){
             return ResultResponse.fail(400,"메뉴 수정 실패");
         }
 
