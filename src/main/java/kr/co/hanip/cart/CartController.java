@@ -26,7 +26,6 @@ public class CartController {
 
     @PostMapping
     public ResponseEntity<ResultResponse<Integer>> save(HttpServletRequest httpReq, @RequestBody CartPostReq req) {
-        log.info("req: {}", req);
         Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         if (loggedInUserId == null) {
             return ResponseEntity
@@ -40,13 +39,18 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<ResultResponse<List<CartListGetRes>>> findAll(@RequestParam int userId) {
-        log.info(" userId: {}", userId);
-        List<CartListGetRes> result = cartService.findAll(userId);
+    public ResponseEntity<ResultResponse<List<CartListGetRes>>> findAll(HttpServletRequest httpReq) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
+        List<CartListGetRes> result = cartService.findAll(loggedInUserId);
         if (result == null || result.size() == 0) {
             return ResponseEntity.ok(ResultResponse.fail(400, "조회 실패"));
         }
-        log.info(" result 장바구니 확인용: {}", result.size());
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
