@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "kr.co.hanip.favorite.FavoriteMapper">
+
+    <insert id="save">
+        INSERT INTO favorites
+        SET user_id = #{userId}
+        ,   store_id = #{storeId}
+        ,   created = NOW()
+    </insert>
+
+    <select id="findAllByUserId">
+        SELECT f.store_id AS id
+        ,      s.name
+        FROM favorites f
+        JOIN stores s ON f.store_id = s.id
+        WHERE f.user_id = #{userId}
+    </select>
+
+    <delete id="deleteByUserIdAndStoreId">
+        DELETE FROM favorites
+        WHERE user_id = #{userId}
+        AND store_id = #{storeId}
+    </delete>
+</mapper>
