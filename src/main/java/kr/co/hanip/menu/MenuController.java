@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
@@ -22,10 +23,10 @@ public class MenuController {
 
 //    메뉴 올리기
     @PostMapping
-    public ResultResponse<Integer> menuPosting(HttpServletRequest httpReq,@RequestBody MenuPostReq req){
+    public ResultResponse<Integer> menuPosting(@RequestPart MultipartFile img, HttpServletRequest httpReq, @RequestBody MenuPostReq req){
         int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
 
-        int result = menuService.memoPosting(req,logginedMemberId);
+        int result = menuService.memoPosting(img,req,logginedMemberId);
         log.info(req.toString());
         if(result == 0){
             return ResultResponse.fail(400,"메뉴 등록 실패");
