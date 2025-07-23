@@ -21,7 +21,7 @@ public class MenuService {
         String savedMenuFileName = myFileUtils.makeRandomFileName(img);
         req.setImagePath(savedMenuFileName);
         req.setUserId(logginedMemberId);
-        String directoryPath = String.format("/menu/%d",req.getId());
+        String directoryPath = String.format("/menu-profile/%d",req.getId());
         myFileUtils.makeFolders(directoryPath);
 
         String savePathFileName = directoryPath + "/" + savedMenuFileName;
