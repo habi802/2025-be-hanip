@@ -52,13 +52,29 @@ public class StoreController {
         }
     }
 
+    // 사장 가게 상세 조회 (GET)
+    @GetMapping("/owner")
+    public ResponseEntity<ResultResponse<StoreGetDto>> findStore(HttpServletRequest httpReq) {
+        // log.info("getStoreDetailStoreId: {}", storeId);
+        int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        StoreGetDto storeGetRes = storeService.findByUserId(loggedInUserId);
+        log.info("StoreGetDto: {}", storeGetRes);
+        if (storeGetRes == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(ResultResponse.fail(404, "가게를 찾을 수 없습니다."));
+        } else {
+            return ResponseEntity.ok(ResultResponse.success(storeGetRes));
+        }
+    }
+
     // 가게 정보 수정 (PUT)
     @PutMapping
     public ResponseEntity<ResultResponse<Integer>> updateStore(@RequestPart(required = false) MultipartFile img,
                                                                @RequestPart StorePutReq data,HttpServletRequest httpReq) {
         log.info("img: {}", img);
         log.info("data: {}", data);
-        int loggedInUserId = 2; // (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         int result = storeService.modifyStore(img, data, loggedInUserId);
         if (result == 0) {
             return ResponseEntity
