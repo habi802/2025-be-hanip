@@ -51,7 +51,7 @@ public class StoreService {
             String savedFileName = null;
             if(img != null && !img.isEmpty()) {
                 savedFileName = myFileUtils.makeRandomFileName(img);
-                String directoryPath = String.format("item/%d", req.getStoreId());
+                String directoryPath = String.format("store-profile/%d", req.getStoreId());
                 myFileUtils.makeFolders(directoryPath);
 
                 String savedPathFileName = directoryPath + "/" + savedFileName;
