@@ -58,7 +58,7 @@ public class StoreController {
         // log.info("getStoreDetailStoreId: {}", storeId);
         int loggedInUserId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         StoreGetDto storeGetRes = storeService.findByUserId(loggedInUserId);
-        // log.info("getStoreDetailGetRes: {}", storeGetRes);
+        log.info("StoreGetDto: {}", storeGetRes);
         if (storeGetRes == null) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

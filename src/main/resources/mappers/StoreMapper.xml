@@ -76,7 +76,9 @@
             <if test="licensePath != null">
             , s.license_path = #{licensePath}
             </if>
+            , s.postcode = #{postcode}
             , s.address = #{address}
+            , s.address_detail = #{addressDetail}
             , s.tel = #{tel}
             , s.owner_name = #{ownerName}
             <if test="imagePath != null">
