@@ -13,11 +13,13 @@ public class StoreGetDto {
     private String category;
     private String name;
     private String comment;
-    private String address;
     private String tel;
     private String ownerName;
     private int isActive;
     private String imagePath;
     private String phone;
     private String email;
+    private String postcode;
+    private String address;
+    private String addressDetail;
 }
