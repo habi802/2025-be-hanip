@@ -1,13 +1,12 @@
 package kr.co.hanip.cart.model;
 
-
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class CartPostReq {
+@Builder
+public class CartPatchDto {
     private int cartId;
     private int userId;
-    private int menuId;
+    private int quantity;
 }

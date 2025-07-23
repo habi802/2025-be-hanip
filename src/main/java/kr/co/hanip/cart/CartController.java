@@ -25,7 +25,7 @@ public class CartController {
 
     @PostMapping
     public ResponseEntity<ResultResponse<Integer>> save(HttpServletRequest httpReq, @RequestBody CartPostReq req) {
-        log.info("CartPostReq: {}", req);
+        log.info("req: {}", req);
         Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         if (loggedInUserId == null) {
             return ResponseEntity
@@ -40,17 +40,17 @@ public class CartController {
 
     @GetMapping
     public ResponseEntity<ResultResponse<List<CartListGetRes>>> findAll(@RequestParam int userId) {
-        log.info(" findAll_userId: {}", userId);
+        log.info(" userId: {}", userId);
         List<CartListGetRes> result = cartService.findAll(userId);
         if (result == null || result.size() == 0) {
             return ResponseEntity.ok(ResultResponse.fail(400, "조회 실패"));
         }
-        log.info(" CartList size: {}", result.size());
+        log.info(" result 장바구니 확인용: {}", result.size());
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
     @DeleteMapping("/{cartId}")
-    public ResponseEntity<ResultResponse<Integer>> deleteById(@PathVariable int cartId, @RequestParam int userId) {
+    public ResponseEntity<ResultResponse<Integer>> deleteByCartId(@PathVariable int cartId, @RequestParam int userId) {
         CartDeleteReq req = new CartDeleteReq(cartId, userId);
         int result = cartService.delete(req);
 
@@ -61,7 +61,7 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ResultResponse<Integer>> deleteAllByUserId(@RequestParam int userId) {
+    public ResponseEntity<ResultResponse<Integer>> deleteByAllUserId(@RequestParam int userId) {
         int result = cartService.deleteAll(userId);
         if (result == 1) {
             return ResponseEntity.ok(ResultResponse.success(result));

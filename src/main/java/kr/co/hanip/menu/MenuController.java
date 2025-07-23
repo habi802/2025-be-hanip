@@ -20,7 +20,7 @@ import java.util.List;
 public class MenuController {
     private final MenuService menuService;
 
-
+//    메뉴 올리기
     @PostMapping
     public ResultResponse<Integer> menuPosting(HttpServletRequest httpReq,@RequestBody MenuPostReq req){
         int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
@@ -32,7 +32,7 @@ public class MenuController {
         }
         return ResultResponse.success(result);
     }
-
+// 가게 메뉴 리스트 조회
     @GetMapping("/{storeId}")
     public ResultResponse<List<MenuGetListRes>> menuGetting(@PathVariable int storeId) {
         List<MenuGetListRes> result = menuService.menuGetList(storeId);
@@ -42,10 +42,22 @@ public class MenuController {
 
 
         return ResultResponse.success(result);
-
-
     }
 
+    // 로그인 세션 가게 메뉴 조회
+    @GetMapping("/owner")
+    public ResultResponse<List<MenuGetListRes>> menuGetting(@PathVariable HttpServletRequest httpReq) {
+        int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        List<MenuGetListRes> result = menuService.menuGetList(logginedMemberId);
+        if(result == null || result.size() == 0){
+            return ResultResponse.fail(400,"메뉴 리스트 조회 실패");
+        }
+
+
+        return ResultResponse.success(result);
+    }
+
+//    가게 메뉴 1개 조회
     @GetMapping
     public ResultResponse<MenuGetRes> menuOneGetting(@RequestParam int menuId) {
         MenuGetRes result = menuService.menuGetOne(menuId);
@@ -56,7 +68,8 @@ public class MenuController {
 
         return ResultResponse.success(result);
     }
-
+    
+    //가게 메뉴 수정
     @PutMapping
     public ResultResponse<Integer> memoPutting(HttpServletRequest httpReq,@RequestBody MenuPutReq req){
         int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
@@ -67,6 +80,8 @@ public class MenuController {
 
         return  ResultResponse.success(result);
     }
+    
+    //메뉴 삭제
     @DeleteMapping("/{menuId}")
     public ResultResponse<Integer> memoDeleting(HttpServletRequest httpReq,@PathVariable int menuId) {
         int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
