@@ -17,7 +17,8 @@ public class CartService {
 
 
     public int save(CartPostReq req) {
-        return cartMapper.save(req);
+        int result = cartMapper.save(req);
+        return req.getCartId();
     }
 
     public List<CartListGetRes> findAll(int userId) {

@@ -30,7 +30,7 @@ public class CartController {
         if (loggedInUserId == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(ResultResponse.fail(400, "등록실패"));
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
         }
 
         req.setUserId(loggedInUserId);
@@ -50,8 +50,15 @@ public class CartController {
     }
 
     @DeleteMapping("/{cartId}")
-    public ResponseEntity<ResultResponse<Integer>> deleteByCartId(@PathVariable int cartId, @RequestParam int userId) {
-        CartDeleteReq req = new CartDeleteReq(cartId, userId);
+    public ResponseEntity<ResultResponse<Integer>> deleteByCartId(HttpServletRequest httpReq, @PathVariable int cartId) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
+        CartDeleteReq req = new CartDeleteReq(cartId, loggedInUserId);
         int result = cartService.delete(req);
 
         if (result == 1) {
