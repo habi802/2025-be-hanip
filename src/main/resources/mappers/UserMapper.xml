@@ -21,6 +21,12 @@
         WHERE login_id = #{loginId}
     </select>
 
+    <select id="findRoleByUserId">
+        SELECT role
+        FROM users
+        WHERE id = #{userId}
+    </select>
+
     <select id="findByUserId">
         SELECT id, name, login_id,
             postcode, address, address_detail,

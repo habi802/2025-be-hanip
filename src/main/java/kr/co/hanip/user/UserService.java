@@ -43,6 +43,8 @@ public class UserService {
 
         Integer storeId = storeMapper.findStoreIdByUserId(res.getId());
         res.setStoreId(storeId == null ? 0 : storeId);
+        String role = userMapper.findRoleByUserId(res.getId());
+        res.setRole(role);
 
         return res;
     }
