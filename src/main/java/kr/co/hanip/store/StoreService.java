@@ -36,6 +36,11 @@ public class StoreService {
         return storeMapper.findByStoreId(storeId);
     }
 
+    // 사장 가게 상세 조회
+    public StoreGetDto findByUserId(int userId) {
+        return storeMapper.findByUserId(userId);
+    }
+
     // 가게 수정
     @Transactional
     public int modifyStore(MultipartFile img, StorePutReq req, int userId) {
@@ -65,7 +70,9 @@ public class StoreService {
                     .comment(req.getComment())
                     .businessNumber(req.getBusinessNumber())
                     .licensePath(req.getLicensePath())
+                    .postcode(req.getPostcode())
                     .address(req.getAddress())
+                    .addressDetail(req.getAddressDetail())
                     .tel(req.getTel())
                     .ownerName(req.getOwnerName())
                     .imagePath(savedFileName)
