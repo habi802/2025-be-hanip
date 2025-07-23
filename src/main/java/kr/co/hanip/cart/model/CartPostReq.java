@@ -6,9 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class CartPostReq {
+    private int cartId;
     private int userId;
     private int menuId;
-    private int quantity;
 }
