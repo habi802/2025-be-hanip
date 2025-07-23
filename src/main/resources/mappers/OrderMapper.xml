@@ -47,10 +47,8 @@
         u.name AS userName, o.amount, o.status,
         o.address, o.postcode, o.address_detail
         FROM orders o
-        JOIN order_menus om ON o.id = om.order_id
-        JOIN menus m ON om.menu_id = m.id
-        JOIN stores s ON o.store_id = s.id
         JOIN users u ON o.user_id = u.id
+        JOIN stores s ON s.id = o.store_id
         WHERE o.store_id = #{storeId};
     </select>
 

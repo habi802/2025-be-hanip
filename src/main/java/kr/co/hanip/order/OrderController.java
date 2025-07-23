@@ -70,17 +70,12 @@ public class OrderController {
     }
 
     @GetMapping("/order/owner/{storeId}")
-    public ResponseEntity<ResultResponse<OrderGetDetailRes>> findOrder(HttpServletRequest httpReq, @PathVariable int storeId) {
-        String role = (String) HttpUtils.getSessionValue(httpReq, UserConstants.USER_ROLE);
-        OrderGetDetailRes result;
-        if ("OWNER".equals(role)) {
-            result = orderService.findByStoreId(storeId);
-            return ResponseEntity.ok(ResultResponse.success(result));
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(ResultResponse.fail(401, "권한이 부족합니다"));
-        }
+    public ResponseEntity<ResultResponse<List<OrderGetDetailRes>>> findOrder(HttpServletRequest httpReq, @PathVariable int storeId) {
+
+          List<OrderGetDetailRes> result = orderService.findByStoreId(storeId);
+          return ResponseEntity.ok(ResultResponse.success(result));
+
+
     }
 
 }
