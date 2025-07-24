@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class FavoritePostReq {
     private int userId;
-    private int storId;
+    private int storeId;
 }
