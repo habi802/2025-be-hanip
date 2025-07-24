@@ -26,7 +26,7 @@ public class OrderController {
     private final OrderService orderService;
 
 
-    //----------요구사항명세서 : order-주문등록-------------
+    //----------고객이 주문 등록-------------
     @PostMapping("/order")
     public ResponseEntity<ResultResponse<Integer>> saveOrder(HttpServletRequest httpReq , @RequestBody OrderPostReq req) {
         int sessionId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
@@ -40,7 +40,7 @@ public class OrderController {
 
 
 
-    // ----------요구사항명세서 : order-주문조회-------------
+    // ----------고객, 사장 조건에 따른 주문조회 (파라미터 수정해야함 ) -------------
     @GetMapping("/order")
     public ResponseEntity<ResultResponse<List<OrderGetRes>>> getOrderListByUserId(HttpServletRequest httpReq) {
         int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
@@ -49,10 +49,7 @@ public class OrderController {
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
-    // ---------- order-주문상세조회-------------
-    //일단 위에랑 같음
 
-    //ResultResponse<>
     // ----------- order-주문상태수정-------------
     @PatchMapping("/order/status")
     public ResponseEntity<ResultResponse<Integer>> modifyStatus(@RequestBody OrderStatusPatchReq req) {
@@ -69,6 +66,7 @@ public class OrderController {
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
+    // ---------- 가게에서 주문목록 조회 -------------
     @GetMapping("/order/owner/{storeId}")
     public ResponseEntity<ResultResponse<List<OrderGetDetailRes>>> findOrder(HttpServletRequest httpReq, @PathVariable int storeId) {
 

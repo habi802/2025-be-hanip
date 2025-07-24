@@ -16,13 +16,13 @@
     <select id="findAllByStoreIdOrderByIdDesc">
         SELECT r.id, u.name AS user_name, r.rating, m.name AS menu_name, COUNT(m.id) AS menu_count, r.image_path, r.comment, r.owner_comment, r.created
         FROM reviews r
-        JOIN orders o
+        LEFT JOIN orders o
         ON o.id = r.order_id
-        JOIN users u
+        LEFT JOIN users u
         ON u.id = o.user_id
-        JOIN order_menus om
+        LEFT JOIN order_menus om
         ON om.order_id = o.id
-        JOIN menus m
+        LEFT JOIN menus m
         ON m.id = om.menu_id
         WHERE o.store_id = #{storeId}
         GROUP BY r.id

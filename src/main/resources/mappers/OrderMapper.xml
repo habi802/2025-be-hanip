@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.hanip.order.OrderMapper">
+
+    <!-- 고객이 주문 등록 -->
     <insert id="save" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO orders
         SET user_id = #{userId}
@@ -10,9 +12,9 @@
 
     </insert>
 
-    <!--   요구사항명세서 : 주문조회  -->
-<!--    결제수단 추가예정-->
-    <select id="findByOrderIdAndUserId">
+    <!--   고객, 사장 조건에 따른 주문조회  -->
+    <!--    결제수단 추가예정 -->
+    <select id="findByOrderIdAndUserIdOrStoreId" >
         SELECT o.id,o.user_id,s.`name`,m.`name` AS menuName ,om.quantity,m.price,o.amount,o.`status`
         FROM orders o
         JOIN order_menus om
@@ -21,20 +23,24 @@
         ON o.store_id = s.id
         JOIN menus m
         ON om.menu_id = m.id
-        WHERE o.user_id = #{userId};
+        <where>
+            <if test="userId != null">
+                o.user_id = #{userId}
+            </if>
+            <if test="storeId != null">
+                AND o.store_id = #{storeId}
+            </if>
+        </where>
     </select>
 
-<!--  주문상세조회-->
-<!--일단 위에랑 동일 -->
-
-
-<!--   주문상태변경-->
+    <!--   주문상태변경-->
     <update id="updateStatus">
         UPDATE orders
         SET `status` = #{status}
         WHERE	id = #{orderId};
     </update>
-<!-- 주문 삭제 -->
+
+    <!-- 주문 삭제 -->
     <update id="hideByOrderId">
         UPDATE orders
         SET is_deleted = 1
@@ -42,6 +48,7 @@
         AND user_id = #{userId};
     </update>
 
+    <!--  가게에서 주문내역 조회   -->
     <select id="findOrderByStoreId">
         SELECT o.id, o.user_id, s.name AS storeName,
         u.name AS userName, o.amount, o.status,

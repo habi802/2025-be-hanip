@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface OrderMapper {
     int save(OrderPostDto req);
-    List<OrderGetRes> findByOrderIdAndUserId(int userId);
+    List<OrderGetRes> findByOrderIdAndUserIdOrStoreId(int userId);
     int updateStatus(OrderStatusPatchReq req);
     int hideByOrderId(OrderHidePatchDto orderHidePatchDto);
     List<OrderGetDetailRes> findOrderByStoreId(int storeId);

@@ -66,7 +66,7 @@ public class OrderService {
 
     // ------------------주문 조회 GET--------------------
     public List<OrderGetRes> getOrderList(int userId) {
-        return orderMapper.findByOrderIdAndUserId(userId);
+        return orderMapper.findByOrderIdAndUserIdOrStoreId(userId);
     }
 
     // ------------------주문상태수정--------------------
@@ -85,6 +85,7 @@ public class OrderService {
         return orderMapper.hideByOrderId(orderHidePatchDto);
     }
 
+    // -----------------가게에서 주문목록 조회 -----------------
     public List<OrderGetDetailRes> findByStoreId(int storeId) {
         List<OrderGetDetailRes> results = orderMapper.findOrderByStoreId(storeId);
 
