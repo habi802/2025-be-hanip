@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MenuPutReq {
-    private int menuId;
+    private int id;
     private int userId;
     private String name;
     private String comment;
