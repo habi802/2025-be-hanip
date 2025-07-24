@@ -34,7 +34,7 @@ public class MenuService {
         }
 
 
-        return result;
+        return 1;
     }
 
     public List<MenuGetListRes> menuGetList(int storeId){
