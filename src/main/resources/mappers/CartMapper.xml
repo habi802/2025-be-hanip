@@ -9,7 +9,7 @@
     </insert>
 
     <select id="findAllMenuAndUserId">
-        SELECT c.id, c.menu_id, c.quantity, m.name, m.price, m.image_path
+        SELECT c.id, c.menu_id, m.store_id, c.quantity, m.name, m.price, m.image_path
         FROM carts c
         JOIN menus m
         ON c.menu_id = m.id
