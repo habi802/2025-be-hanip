@@ -6,5 +6,15 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ReviewGetReq {
-    private Integer storeId;
+    private int id;
+    private int userId;
+    private int storeId;
+    private String userName;
+    private double rating;
+    private String menuName;
+    private int menuCount;
+    private String imagePath;
+    private String comment;
+    private String ownerComment;
+    private String created;
 }

@@ -11,6 +11,8 @@ import java.util.List;
 @Builder
 public class ReviewGetRes {
     private int id;
+    private int userId;
+    private int storeId;
     private String userName;
     private double rating;
     private String menuName;
