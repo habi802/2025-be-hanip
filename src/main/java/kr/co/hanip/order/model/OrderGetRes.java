@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Property;
 public class OrderGetRes {
     private int id; // o.id
     private int userId; // o.user_id
+    private int storeId;
     private String storeName; //s.`name`
     private String menuName; // m.`name`
     private int quantity; //om.quantity
