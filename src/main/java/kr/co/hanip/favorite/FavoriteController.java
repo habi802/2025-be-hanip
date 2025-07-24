@@ -43,7 +43,7 @@ public class FavoriteController {
 
     @DeleteMapping("/{store_id}")
     public ResultResponse<Integer> delete(HttpServletRequest httpReq, @PathVariable("store_id") int storeId) {
-        int userId = (int) HttpUtils.getSessionValue(httpReq, "user_id");
+        int userId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         return ResultResponse.success(favoriteService.delete(userId, storeId));
     }
 }
