@@ -8,7 +8,7 @@
             menu_id = #{menuId}
     </insert>
 
-    <select id="findAllByUserId">
+    <select id="findAllMenuAndUserId">
         SELECT c.id, c.menu_id, c.quantity, m.name, m.price, m.image_path
         FROM carts c
         JOIN menus m
@@ -30,7 +30,7 @@
         AND user_id = #{userId}
     </delete>
 
-    <delete id="deleteByUserId">
+    <delete id="deleteByAllUserId">
         DELETE
         FROM carts
         WHERE user_id = #{userId}
