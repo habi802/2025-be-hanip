@@ -1,10 +1,12 @@
 package kr.co.hanip.review;
 
 
+import kr.co.hanip.common.util.MyFileUtils;
 import kr.co.hanip.review.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,10 +15,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewMapper reviewMapper;
+    private final MyFileUtils myFileUtils;
 
-    public int save(ReviewPostReq req, int loggedInUserId) {
+    public int save(MultipartFile img, ReviewPostReq req, int loggedInUserId) {
         req.setUserId(loggedInUserId);
-        return reviewMapper.save(req);
+        String saveFileName = myFileUtils.makeRandomFileName(img);
+        req.setImagePath(saveFileName);
+        int result = reviewMapper.save(req);
+
+        String directoryPath = String.format("/review/%d",req.getId());
+        myFileUtils.makeFolders(directoryPath);
+
+        String savePathFileName = directoryPath + "/" + saveFileName;
+        try {
+            myFileUtils.transferTo(img,savePathFileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        return 1;
     }
 
     public List<ReviewGetRes> findAllByStoreId(int storeId) {

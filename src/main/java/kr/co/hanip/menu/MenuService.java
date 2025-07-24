@@ -21,6 +21,7 @@ public class MenuService {
         String savedMenuFileName = myFileUtils.makeRandomFileName(img);
         req.setImagePath(savedMenuFileName);
         req.setUserId(logginedMemberId);
+        int result = menuMapper.menuPost(req);
         String directoryPath = String.format("/menu-profile/%d",req.getId());
         myFileUtils.makeFolders(directoryPath);
 
@@ -33,7 +34,7 @@ public class MenuService {
         }
 
 
-        return menuMapper.menuPost(req);
+        return 1;
     }
 
     public List<MenuGetListRes> menuGetList(int storeId){
