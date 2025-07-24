@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "kr.co.hanip.review.ReviewMapper">
     <!-- 등록 -->
-    <insert id="save">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO reviews
-        SET user_id = #{userId},
+        SET id = #{id},
+            user_id = #{userId},
             order_id = #{orderId},
             rating = #{rating},
             comment = #{comment},
@@ -30,7 +31,7 @@
 
     <!-- 유저(자신)이 쓴 리뷰 조회 -->
     <select id="findAllByUserIdOrderByIdDesc">
-        SELECT r.id, u.name AS user_name, r.rating, m.name AS menu_name, COUNT(m.id) AS menu_count, r.image_path, r.comment, r.owner_comment, r.created
+        SELECT r.id, u.name AS user_name, r.rating,m.store_id ,m.name AS menu_name, COUNT(m.id) AS menu_count, r.image_path, r.comment, r.owner_comment, r.created
         FROM reviews r
         JOIN orders o
         ON o.id = r.order_id

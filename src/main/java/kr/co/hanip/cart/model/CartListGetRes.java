@@ -9,6 +9,7 @@ import lombok.ToString;
 public class CartListGetRes {
     private int id;
     private int menuId;
+    private int storeId;
     private int quantity;
     private int price;
     private String name;

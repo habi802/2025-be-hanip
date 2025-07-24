@@ -1,5 +1,6 @@
 package kr.co.hanip.order;
 
+import kr.co.hanip.cart.CartMapper;
 import kr.co.hanip.menu.MenuMapper;
 import kr.co.hanip.menu.model.MenuGetRes;
 import kr.co.hanip.order.model.*;
@@ -18,6 +19,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderMenusMapper orderMenusMapper;
     private final MenuMapper menuMapper;
+    private final CartMapper cartMapper;
 
     // ----------요구사항명세서 : order-주문등록-------------
     @Transactional
@@ -52,14 +54,13 @@ public class OrderService {
 
         log.info("orderMenuPostDto={}", orderMenuPostDto);
 
-        // 메뉴 저장
+        // 주문 메뉴 저장
         orderMenusMapper.SaveQuantity(orderMenuPostDto);
 
-        //장바구니삭제 (cart전달받고 작업예정)
-        //cartMapper.deleteByMemberId(logginedMemberId);
+        // 주문 메뉴 저장 후 장바구니 삭제
+        cartMapper.deleteByAllUserId(logginedMemberId);
 
         return 1;
-
     }
 
 
