@@ -12,5 +12,6 @@ public interface MenuMapper {
     int menuDelete(MenuDeleteReq req);
     List<MenuGetListRes> menuGetList(int storeId);
     MenuGetRes menuGetOne(int menuId);
+    List<MenuGetListRes> findByUserId(int userId);
 
 }
