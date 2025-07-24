@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 
 public class ReviewPostReq {
+    private int id;
     private int userId;
     private int orderId;
     private double rating;

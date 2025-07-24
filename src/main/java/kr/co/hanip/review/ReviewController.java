@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<ResultResponse<Integer>> save(@RequestBody ReviewPostReq req, HttpServletRequest httpReq) {
+    public ResponseEntity<ResultResponse<Integer>> save(@RequestPart MultipartFile img, @RequestBody ReviewPostReq req, HttpServletRequest httpReq) {
         Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         if (loggedInUserId == null) {
             return ResponseEntity
@@ -30,7 +31,7 @@ public class ReviewController {
                     .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
         }
 
-        int result = reviewService.save(req, loggedInUserId);
+        int result = reviewService.save(img,req, loggedInUserId);
         return result == 0
                 ? ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
