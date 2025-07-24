@@ -23,11 +23,11 @@ public class MenuController {
 
 //    메뉴 올리기
     @PostMapping
-    public ResultResponse<Integer> menuPosting(@RequestPart MultipartFile img, HttpServletRequest httpReq, @RequestBody MenuPostReq req){
+    public ResultResponse<Integer> menuPosting(@RequestPart MultipartFile img, HttpServletRequest httpReq, @RequestPart MenuPostReq data){
         int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
 
-        int result = menuService.memoPosting(img,req,logginedMemberId);
-        log.info(req.toString());
+        int result = menuService.memoPosting(img,data,logginedMemberId);
+        log.info(data.toString());
         if(result == 0){
             return ResultResponse.fail(400,"메뉴 등록 실패");
         }
@@ -72,9 +72,10 @@ public class MenuController {
     
     //가게 메뉴 수정
     @PutMapping
-    public ResultResponse<Integer> memoPutting(HttpServletRequest httpReq,@RequestBody MenuPutReq req){
+    public ResultResponse<Integer> memoPutting(@RequestPart(required = false) MultipartFile img, @RequestPart MenuPutReq data, HttpServletRequest httpReq){
         int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        int result = menuService.menuPut(req,logginedMemberId);
+        int result = menuService.menuPut(img,data,logginedMemberId);
+        log.info(data.toString());
         if(result == 0){
             return ResultResponse.fail(400,"메뉴 수정 실패");
         }

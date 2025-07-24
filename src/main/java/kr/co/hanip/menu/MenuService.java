@@ -21,6 +21,7 @@ public class MenuService {
         String savedMenuFileName = myFileUtils.makeRandomFileName(img);
         req.setImagePath(savedMenuFileName);
         req.setUserId(logginedMemberId);
+        int result = menuMapper.menuPost(req);
         String directoryPath = String.format("/menu-profile/%d",req.getId());
         myFileUtils.makeFolders(directoryPath);
 
@@ -33,7 +34,7 @@ public class MenuService {
         }
 
 
-        return menuMapper.menuPost(req);
+        return result;
     }
 
     public List<MenuGetListRes> menuGetList(int storeId){
@@ -42,9 +43,26 @@ public class MenuService {
     public MenuGetRes menuGetOne(int menuId){
         return menuMapper.menuGetOne(menuId);
     }
-    public int menuPut(MenuPutReq req, int logginedMemberId){
+    public int menuPut(MultipartFile img, MenuPutReq req, int logginedMemberId){
+        String savedMenuFileName = null;
+        if(img != null && !img.isEmpty()) {
+            savedMenuFileName = myFileUtils.makeRandomFileName(img);
+            String directoryPath = String.format("/menu-profile/%d",req.getId());
+            myFileUtils.makeFolders(directoryPath);
+
+            String savePathFileName = directoryPath + "/" + savedMenuFileName;
+            try{
+                myFileUtils.transferTo(img,savePathFileName);
+            } catch(Exception e){
+                e.printStackTrace();
+                return 0;
+            }
+        }
+        req.setImagePath(savedMenuFileName);
         req.setUserId(logginedMemberId);
-        return menuMapper.menuModify(req);
+
+        int result = menuMapper.menuModify(req);
+        return result;
     }
     public int menuDelete(MenuDeleteReq req){
         return menuMapper.menuDelete(req);

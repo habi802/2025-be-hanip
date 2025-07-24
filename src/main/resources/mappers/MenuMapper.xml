@@ -4,8 +4,7 @@
 
     <insert id="menuPost" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO menus
-        SET id = #{id}
-        ,   user_id = #{userId}
+        SET user_id = #{userId}
         ,   store_id = #{storeId}
         ,   name = #{name}
         ,   comment =#{comment}
@@ -34,8 +33,10 @@
         ,   user_id = #{userId}
         ,   comment =#{comment}
         ,   price = #{price}
+        <if test="imagePath != null">
         ,   image_path = #{imagePath}
-        WHERE id = #{menuId}
+        </if>
+        WHERE id = #{id}
     </update>
     <delete id="menuDelete">
         DELETE FROM menus
