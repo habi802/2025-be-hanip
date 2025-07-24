@@ -17,6 +17,13 @@
         WHERE f.user_id = #{userId}
     </select>
 
+    <select id="findByStoreIdAndUserId">
+        SELECT user_id
+        FROM favorites
+        WHERE store_id = #{storeId}
+        AND user_id = #{userId}
+    </select>
+
     <delete id="deleteByUserIdAndStoreId">
         DELETE FROM favorites
         WHERE user_id = #{userId}
