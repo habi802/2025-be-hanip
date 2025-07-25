@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -25,14 +26,13 @@ public class StoreService {
 //    public int saveStore(StorePostReq req) {
 //    }
 
-    // 가게 리스트 조회
+    // 가게 리스트 조회 (비로그인)
     public List<StoreGetListRes> findAllStore(StoreGetListReq req) {
-        return storeMapper.findAllOrderByStoreId(req);
+        return storeMapper.findAllStore(req);
     }
 
     // 가게 상세 조회
     public StoreGetRes findStore(int storeId) {
-
         return storeMapper.findByStoreId(storeId);
     }
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -31,7 +32,7 @@ public class StoreController {
     // 가게 조회 (GET)
     @GetMapping
     public ResponseEntity<ResultResponse<List<StoreGetListRes>>> findAllStore(@ModelAttribute StoreGetListReq req) {
-        // log.info("getStoreListReq: {}", req);
+        log.info("getStoreListReq: {}", req);
         List<StoreGetListRes> storeListRes = storeService.findAllStore(req);
         // log.info("getStoreListRes: {}", storeListRes);
         return ResponseEntity.ok(ResultResponse.success(storeListRes));
