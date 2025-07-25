@@ -39,7 +39,6 @@
         UPDATE orders
         SET is_deleted = 1
         WHERE	id = #{orderId}
-        AND user_id = #{userId};
     </update>
 
     <select id="findOrderByStoreId">
