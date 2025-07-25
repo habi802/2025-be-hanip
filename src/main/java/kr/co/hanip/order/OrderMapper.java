@@ -10,6 +10,6 @@ public interface OrderMapper {
     int save(OrderPostDto req);
     List<OrderGetRes> findByOrderIdAndUserId(int userId);
     int updateStatus(OrderStatusPatchReq req);
-    int hideByOrderId(OrderHidePatchDto orderHidePatchDto);
+    int hideByOrderId(int orderId);
     List<OrderGetDetailRes> findOrderByStoreId(int storeId);
 }
