@@ -67,4 +67,16 @@ public class CustomerController {
 
         return ResponseEntity.ok(ResultResponse.success(result));
     }
+
+    @GetMapping("/check")
+    public ResponseEntity<ResultResponse<Integer>> check(HttpServletRequest httpReq) {
+        Integer result = (Integer) HttpUtils.getSessionValue(httpReq, CustomerConstants.LOGGED_IN_CUSTOMER_ID);
+        return ResponseEntity.ok(ResultResponse.success(result));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ResultResponse<Integer>> logout(HttpServletRequest httpReq) {
+        HttpUtils.removeSessionValue(httpReq, CustomerConstants.LOGGED_IN_CUSTOMER_ID);
+        return ResponseEntity.ok(ResultResponse.success(1));
+    }
 }
