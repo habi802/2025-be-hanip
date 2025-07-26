@@ -1,5 +1,6 @@
 package kr.co.hanip.customer;
 
+import kr.co.hanip.customer.etc.CustomerJoinConstants;
 import kr.co.hanip.customer.model.CustomerJoinReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +14,12 @@ public class CustomerService {
     private final CustomerMapper customerMapper;
 
     Integer join(CustomerJoinReq req) {
+        if (customerMapper.findIdByLoginId(req.getLoginId()) != null) {
+            return CustomerJoinConstants.DUPLICATE_ID;
+        }
+
         if (!req.getLoginPw().equals(req.getLoginPwCheck())) {
-            return null;
+            return CustomerJoinConstants.PASSWORD_MISMATCH;
         }
 
         String hashedPw = BCrypt.hashpw(req.getLoginPw(), BCrypt.gensalt());
@@ -34,5 +39,9 @@ public class CustomerService {
                 .build();
 
         return customerMapper.save(joinReq);
+    }
+
+    Integer checkLoginId(String loginId) {
+        return customerMapper.findIdByLoginId(loginId);
     }
 }

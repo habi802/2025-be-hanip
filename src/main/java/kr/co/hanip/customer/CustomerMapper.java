@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CustomerMapper {
     int save(CustomerJoinReq req);
+    Integer findIdByLoginId(String loginId);
 }
