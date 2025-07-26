@@ -23,7 +23,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<ResultResponse<Integer>> save(@RequestPart MultipartFile img, @RequestBody ReviewPostReq req, HttpServletRequest httpReq) {
+    public ResponseEntity<ResultResponse<Integer>> save(@RequestPart(required = false) MultipartFile img, @RequestPart ReviewPostReq req, HttpServletRequest httpReq) {
         Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         if (loggedInUserId == null) {
             return ResponseEntity
