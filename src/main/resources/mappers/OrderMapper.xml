@@ -25,6 +25,18 @@
     </select>
 
 <!--  주문상세조회-->
+    <select id="findById">
+        SELECT o.id,o.user_id,s.`name`AS storeName,o.store_id AS storeId ,m.`name` AS menuName ,om.quantity,m.price,o.amount,o.`status`
+        FROM orders o
+        JOIN order_menus om
+        ON o.id = om.order_id
+        LEFT JOIN stores s
+        ON o.store_id = s.id
+        JOIN menus m
+        ON om.menu_id = m.id
+        WHERE o.id = #{id};
+    </select>
+
 <!--일단 위에랑 동일 -->
 
 
