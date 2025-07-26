@@ -66,7 +66,12 @@ public class OrderService {
 
     // ------------------주문 조회 GET--------------------
     public List<OrderGetRes> getOrderList(int userId) {
-        return orderMapper.findByOrderIdAndUserId(userId);
+        List<OrderGetRes> results = orderMapper.findByOrderIdAndUserId(userId);
+        for (OrderGetRes order : results) {
+            List<OrderGetListReq> orderGetList = orderMenusMapper.findAllByOrderIdFromUser(order.getId());
+            order.setOrderGetList(orderGetList);
+        }
+        return results;
     }
 //
     public OrderGetReq getOrderById(int orderId) {

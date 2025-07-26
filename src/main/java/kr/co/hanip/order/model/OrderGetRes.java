@@ -1,25 +1,24 @@
 package kr.co.hanip.order.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
-import org.apache.ibatis.annotations.Property;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
+@Setter
 @ToString
 public class OrderGetRes {
     private int id; // o.id
     private int userId; // o.user_id
     private int storeId;
     private String storeName; //s.`name`
-    private String menuName; // m.`name`
-    private int quantity; //om.quantity
-    private int price; //m.price
     private int amount; // o.amount
     private String status; // o.`status`
-    private List<OrderGetListReq>  orderGetList;
-
-
+    private Date created;
+    private String imagePath;
+    private int isDeleted;
+    private List<OrderGetListReq> orderGetList;
 }
