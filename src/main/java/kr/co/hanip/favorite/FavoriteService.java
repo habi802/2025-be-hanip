@@ -1,5 +1,6 @@
 package kr.co.hanip.favorite;
 
+import kr.co.hanip.favorite.model.FavoriteGetDto;
 import kr.co.hanip.favorite.model.FavoriteGetRes;
 import kr.co.hanip.favorite.model.FavoritePostReq;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,14 @@ public class FavoriteService {
 
     public List<FavoriteGetRes> findAll(int userId) {
         return favoriteMapper.findAllByUserId(userId);
+    }
+
+    public Integer find(int storeId, int userId) {
+        FavoriteGetDto dto = FavoriteGetDto.builder()
+                .storeId(storeId)
+                .userId(userId)
+                .build();
+        return favoriteMapper.findByStoreIdAndUserId(dto);
     }
 
     public int delete(int userId, int storeId) {

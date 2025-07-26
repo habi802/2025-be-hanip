@@ -75,14 +75,9 @@ public class OrderService {
     }
 
     // ---------------주문 삭제 ----------------------
-    public int hideByOrderId(int logginedMemberId, int orderId) {
-
-        OrderHidePatchDto orderHidePatchDto = new OrderHidePatchDto();
-        orderHidePatchDto.setUserId(logginedMemberId);
-        orderHidePatchDto.setOrderId(orderId);
-        log.info("orderHidePatchDto={}", orderHidePatchDto);
-
-        return orderMapper.hideByOrderId(orderHidePatchDto);
+    public int hideByOrderId(int orderId) {
+        log.info("orderId={}", orderId);
+        return orderMapper.hideByOrderId(orderId);
     }
 
     public List<OrderGetDetailRes> findByStoreId(int storeId) {

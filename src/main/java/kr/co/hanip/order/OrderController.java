@@ -16,6 +16,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -64,17 +65,23 @@ public class OrderController {
     // ----------- order-주문삭제 --------------
     @PatchMapping("/order/owner/{orderId}")
     public ResponseEntity<ResultResponse<Integer>> modifyOrderStatus(HttpServletRequest httpReq , @PathVariable int orderId) {
-        int logginedMemberId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        int result = orderService.hideByOrderId(logginedMemberId,orderId);
-        return ResponseEntity.ok(ResultResponse.success(result));
+        Integer logginedMemberId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (logginedMemberId != null) {
+            int result = orderService.hideByOrderId(orderId);
+            return ResponseEntity.ok(ResultResponse.success(result));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @GetMapping("/order/owner/{storeId}")
     public ResponseEntity<ResultResponse<List<OrderGetDetailRes>>> findOrder(HttpServletRequest httpReq, @PathVariable int storeId) {
-
-          List<OrderGetDetailRes> result = orderService.findByStoreId(storeId);
-          return ResponseEntity.ok(ResultResponse.success(result));
-
+        Integer logginedMemberId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        List<OrderGetDetailRes> result;
+        if(logginedMemberId != null){
+            result = orderService.findByStoreId(storeId);
+            return ResponseEntity.ok(ResultResponse.success(result));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
     }
 

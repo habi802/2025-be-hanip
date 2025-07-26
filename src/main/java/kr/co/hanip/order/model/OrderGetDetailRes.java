@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -20,5 +21,9 @@ public class OrderGetDetailRes {
     private String address;
     private String postcode;
     private String addressDetail;
+    private Date created;
+    private Date updated;
+    private String phone;
+    private int isDeleted;
     private List<OrderMenuDto> menus; // 여러 메뉴
 }
