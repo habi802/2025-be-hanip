@@ -5,6 +5,7 @@ import kr.co.hanip.common.model.ResultResponse;
 import kr.co.hanip.common.util.HttpUtils;
 import kr.co.hanip.customer.etc.CustomerConstants;
 import kr.co.hanip.customer.etc.CustomerJoinConstants;
+import kr.co.hanip.customer.model.CustomerGetRes;
 import kr.co.hanip.customer.model.CustomerJoinReq;
 import kr.co.hanip.customer.model.CustomerLoginReq;
 import kr.co.hanip.customer.model.CustomerLoginRes;
@@ -71,6 +72,19 @@ public class CustomerController {
     @GetMapping("/check")
     public ResponseEntity<ResultResponse<Integer>> check(HttpServletRequest httpReq) {
         Integer result = (Integer) HttpUtils.getSessionValue(httpReq, CustomerConstants.LOGGED_IN_CUSTOMER_ID);
+        return ResponseEntity.ok(ResultResponse.success(result));
+    }
+
+    @GetMapping
+    public ResponseEntity<ResultResponse<CustomerGetRes>> find(HttpServletRequest httpReq) {
+        Integer loggedInCustomerId = (Integer) HttpUtils.getSessionValue(httpReq, CustomerConstants.LOGGED_IN_CUSTOMER_ID);
+        if (loggedInCustomerId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
+        CustomerGetRes result = customerService.find(loggedInCustomerId);
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 

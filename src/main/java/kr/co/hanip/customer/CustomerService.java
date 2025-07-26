@@ -1,10 +1,10 @@
 package kr.co.hanip.customer;
 
 import kr.co.hanip.customer.etc.CustomerJoinConstants;
+import kr.co.hanip.customer.model.CustomerGetRes;
 import kr.co.hanip.customer.model.CustomerJoinReq;
 import kr.co.hanip.customer.model.CustomerLoginReq;
 import kr.co.hanip.customer.model.CustomerLoginRes;
-import kr.co.hanip.user.model.UserLoginRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
@@ -56,5 +56,9 @@ public class CustomerService {
         }
 
         return res;
+    }
+
+    CustomerGetRes find(int customerId) {
+        return customerMapper.findById(customerId);
     }
 }

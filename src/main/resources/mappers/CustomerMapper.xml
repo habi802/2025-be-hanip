@@ -28,4 +28,12 @@
         FROM customers
         WHERE login_id = #{loginId}
     </select>
+
+    <select id="findById">
+        SELECT id, name, login_id,
+        postcode, address, address_detail,
+        email, tel, phone, image_path, image_name
+        FROM customers
+        WHERE id = #{customerId}
+    </select>
 </mapper>
