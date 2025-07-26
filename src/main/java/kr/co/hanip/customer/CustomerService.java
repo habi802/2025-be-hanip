@@ -2,6 +2,9 @@ package kr.co.hanip.customer;
 
 import kr.co.hanip.customer.etc.CustomerJoinConstants;
 import kr.co.hanip.customer.model.CustomerJoinReq;
+import kr.co.hanip.customer.model.CustomerLoginReq;
+import kr.co.hanip.customer.model.CustomerLoginRes;
+import kr.co.hanip.user.model.UserLoginRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
@@ -43,5 +46,15 @@ public class CustomerService {
 
     Integer checkLoginId(String loginId) {
         return customerMapper.findIdByLoginId(loginId);
+    }
+
+    CustomerLoginRes login(CustomerLoginReq req) {
+        CustomerLoginRes res = customerMapper.findByLoginId(req);
+
+        if (res == null || !BCrypt.checkpw(req.getLoginPw(), res.getLoginPw())) {
+            return null;
+        }
+
+        return res;
     }
 }
