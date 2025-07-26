@@ -20,6 +20,7 @@ public class UserController {
 
     @PostMapping("/join")
     public ResponseEntity<ResultResponse<Integer>> join(@RequestBody UserJoinReq req) {
+        log.info("req: {}", req);
         int result = userService.join(req);
         return result == 0
                 ? ResponseEntity
