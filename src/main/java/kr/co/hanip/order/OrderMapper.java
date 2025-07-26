@@ -9,6 +9,7 @@ import java.util.List;
 public interface OrderMapper {
     int save(OrderPostDto req);
     List<OrderGetRes> findByOrderIdAndUserId(int userId);
+    OrderGetReq findById(int orderId);
     int updateStatus(OrderStatusPatchReq req);
     int hideByOrderId(int orderId);
     List<OrderGetDetailRes> findOrderByStoreId(int storeId);

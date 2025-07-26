@@ -3,10 +3,7 @@ package kr.co.hanip.order;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.hanip.common.model.ResultResponse;
 import kr.co.hanip.common.util.HttpUtils;
-import kr.co.hanip.order.model.OrderGetDetailRes;
-import kr.co.hanip.order.model.OrderGetRes;
-import kr.co.hanip.order.model.OrderPostReq;
-import kr.co.hanip.order.model.OrderStatusPatchReq;
+import kr.co.hanip.order.model.*;
 import kr.co.hanip.user.etc.UserConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +48,11 @@ public class OrderController {
     }
 
     // ---------- order-주문상세조회-------------
-    //일단 위에랑 같음
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<ResultResponse<OrderGetReq>> getOrderById(@PathVariable("orderId") int orderId) {
+        OrderGetReq result = orderService.getOrderById(orderId);
+        return ResponseEntity.ok(ResultResponse.success(result));
+    }
 
     //ResultResponse<>
     // ----------- order-주문상태수정-------------

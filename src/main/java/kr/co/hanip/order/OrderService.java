@@ -73,7 +73,10 @@ public class OrderService {
         }
         return results;
     }
-
+//
+    public OrderGetReq getOrderById(int orderId) {
+        return orderMapper.findById(orderId);
+    }
     // ------------------주문상태수정--------------------
     public int modifyOrderStatus(OrderStatusPatchReq req) {
         return orderMapper.updateStatus(req);
