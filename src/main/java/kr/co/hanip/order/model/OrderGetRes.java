@@ -18,5 +18,7 @@ public class OrderGetRes {
     private int amount; // o.amount
     private String status; // o.`status`
     private Date created;
+    private String imagePath;
+    private int isDeleted;
     private List<OrderGetListReq> orderGetList;
 }
