@@ -21,8 +21,10 @@ public class FavoriteController {
 
     @PostMapping
     public ResultResponse<Integer> save(@RequestBody FavoritePostReq req, HttpServletRequest httpReq) {
-        int userId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
-        log.info("userId: {}", userId);
+        Integer userId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (userId == null) {
+            return ResultResponse.success(null);
+        }
 
         req.setUserId(userId);
         int result = favoriteService.save(req);
@@ -37,7 +39,11 @@ public class FavoriteController {
 
     @GetMapping("/{store_id}")
     public ResultResponse<Integer> find(HttpServletRequest httpReq, @PathVariable("store_id") int storeId) {
-        int userId = (int) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        Integer userId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (userId == null) {
+            return ResultResponse.success(null);
+        }
+
         return ResultResponse.success(favoriteService.find(storeId, userId));
     }
 
