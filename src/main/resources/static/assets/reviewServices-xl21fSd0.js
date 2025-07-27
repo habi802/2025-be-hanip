@@ -1,1 +1,0 @@
-import{i as o}from"./index-Cch_X993.js";const r="/review",s=e=>o.get(`${r}/store/${e}`).catch(t=>t.response),a=(e,t)=>o.patch("/review/owner",{reviewId:e,ownerComment:t},{headers:{"Content-Type":"application/json"}});export{s as g,a as p};
