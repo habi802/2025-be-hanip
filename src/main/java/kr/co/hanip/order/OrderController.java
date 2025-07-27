@@ -49,8 +49,8 @@ public class OrderController {
 
     // ---------- order-주문상세조회-------------
     @GetMapping("/order/{orderId}")
-    public ResponseEntity<ResultResponse<OrderGetReq>> getOrderById(@PathVariable("orderId") int orderId) {
-        OrderGetReq result = orderService.getOrderById(orderId);
+    public ResponseEntity<ResultResponse<List<OrderGetReq>>> getOrderById(@PathVariable("orderId") int orderId) {
+        List<OrderGetReq> result = orderService.getOrderById(orderId);
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 

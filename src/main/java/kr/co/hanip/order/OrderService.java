@@ -74,7 +74,7 @@ public class OrderService {
         return results;
     }
 //
-    public OrderGetReq getOrderById(int orderId) {
+    public List<OrderGetReq> getOrderById(int orderId) {
         return orderMapper.findById(orderId);
     }
     // ------------------주문상태수정--------------------
