@@ -1,6 +1,6 @@
 constants:
   file:
-    directory: /home/download
+    directory: /home/download/images
 
 spring:
   datasource:
