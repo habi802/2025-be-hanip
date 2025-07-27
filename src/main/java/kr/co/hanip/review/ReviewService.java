@@ -48,9 +48,9 @@ public class ReviewService {
         return reviewMapper.findAllByUserIdOrderByIdDesc(loggedInUserId);
     }
 
-//    public ReviewGetRes reviewGet(int reviewId) {
-//        return reviewMapper.reviewGet(reviewId);
-//    }
+    public ReviewGetRes reviewGet(int orderId) {
+        return reviewMapper.findByorderId(orderId);
+    }
 
     public Integer updateOwnerComment(ReviewPatchReq req, int storeId) {
         ReviewPatchDto dto = ReviewPatchDto.builder()
@@ -73,5 +73,25 @@ public class ReviewService {
                 .build();
 
         return reviewMapper.delete(dto);
+    }
+//      리뷰 수정용
+    public int modify(MultipartFile img, ReviewPutReq req, int loggedInUserId) {
+        req.setUserId(loggedInUserId);
+        String saveFileName = myFileUtils.makeRandomFileName(img);
+        req.setImagePath(saveFileName);
+        int result = reviewMapper.modify(req);
+
+        String directoryPath = String.format("/review-profile/%d",req.getId());
+        myFileUtils.makeFolders(directoryPath);
+
+        String savePathFileName = directoryPath + "/" + saveFileName;
+        try {
+            myFileUtils.transferTo(img,savePathFileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        return 1;
     }
 }

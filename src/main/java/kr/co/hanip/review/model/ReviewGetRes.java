@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class ReviewGetRes {
     private int id;
+    private int orderId;
     private int storeId;
     private String userName;
     private double rating;

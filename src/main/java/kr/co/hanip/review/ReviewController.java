@@ -39,6 +39,26 @@ public class ReviewController {
                 : ResponseEntity.ok(ResultResponse.success(result));
     }
 
+    @PutMapping
+    public ResponseEntity<ResultResponse<Integer>> modify(@RequestPart(required = false) MultipartFile img, @RequestPart ReviewPutReq req, HttpServletRequest httpReq) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+        if (img == null) {
+            req.setImagePath(req.getImagePath());
+        }
+
+        int result = reviewService.modify(img, req, loggedInUserId);
+        return result == 0
+                ? ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ResultResponse.fail(400, "수정 실패"))
+                : ResponseEntity.ok(ResultResponse.success(result));
+    }
+
     @GetMapping("/store/{storeId}")
     public ResponseEntity<ResultResponse<List<ReviewGetRes>>> findAllByStoreId(@PathVariable int storeId) {
         List<ReviewGetRes> result = reviewService.findAllByStoreId(storeId);
@@ -52,11 +72,12 @@ public class ReviewController {
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
-//    @GetMapping
-//    public ResultResponse<ReviewGetRes> reviewGet(@RequestParam int reviewId) {
-//        ReviewGetRes res = reviewService.reviewGet(reviewId);
-//        return res == null ? ResultResponse.fail(404, "리뷰 없음") : ResultResponse.success(res);
-//    }
+    @GetMapping("/{orderId}")
+    public ResultResponse<ReviewGetRes> reviewGet(@PathVariable int orderId) {
+        ReviewGetRes res = reviewService.reviewGet(orderId);
+        log.info("orderId :{}", orderId);
+        return res == null ? ResultResponse.fail(404, "리뷰 없음") : ResultResponse.success(res);
+    }
 
     @PatchMapping("/owner")
     public ResponseEntity<ResultResponse<Integer>> updateOwnerComment(@RequestBody ReviewPatchReq req, HttpServletRequest httpReq) {
