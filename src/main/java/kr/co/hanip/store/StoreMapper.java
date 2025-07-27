@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface StoreMapper {
-    int save(StorePostDto req); // 가게등록
+    int save(StorePostReq req); // 가게등록
     List<StoreGetListRes> findAllStore(StoreGetListReq req); // 가게전체조회 & 검색
     StoreGetRes findByStoreId(int storeId); // 가게상세조회
     StoreGetDto findByUserId(int userId); // 사장가게상세조회

@@ -1,11 +1,13 @@
 package kr.co.hanip.user;
 
 import kr.co.hanip.store.StoreMapper;
+import kr.co.hanip.store.model.StorePostReq;
 import kr.co.hanip.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -14,7 +16,10 @@ public class UserService {
     private final UserMapper userMapper;
     private final StoreMapper storeMapper;
 
+    @Transactional
     int join(UserJoinReq req) {
+        int result = 0;
+
         String hashedPw = BCrypt.hashpw(req.getLoginPw(), BCrypt.gensalt());
 
         UserJoinReq joinReq = UserJoinReq.builder()
@@ -28,10 +33,31 @@ public class UserService {
                 .email(req.getEmail())
                 .imagePath(req.getImagePath())
                 .role(req.getRole())
+                .owner(req.getOwner())
                 .build();
 
-        log.info("user joinReq:{}", joinReq);
-        return userMapper.save(joinReq);
+        //log.info("user joinReq:{}", joinReq);
+        result += userMapper.save(joinReq);
+
+        if (joinReq.getOwner() != null) {
+            StorePostReq storeReq = StorePostReq.builder()
+                    .userId(joinReq.getId())
+                    .category(joinReq.getOwner().getCategory())
+                    .name(joinReq.getOwner().getName())
+                    .comment(joinReq.getOwner().getComment())
+                    .businessNumber(joinReq.getOwner().getBusinessNumber())
+                    .licensePath("001.jpg")
+                    .postcode(joinReq.getPostcode())
+                    .address(joinReq.getAddress())
+                    .addressDetail(joinReq.getAddressDetail())
+                    .tel(joinReq.getOwner().getTel())
+                    .ownerName(joinReq.getName())
+                    .build();
+
+            result += storeMapper.save(storeReq);
+        }
+
+        return result;
     }
 
     UserLoginRes login(UserLoginReq req) {

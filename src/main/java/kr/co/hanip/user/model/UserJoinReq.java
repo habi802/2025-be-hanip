@@ -1,5 +1,6 @@
 package kr.co.hanip.user.model;
 
+import kr.co.hanip.store.model.StorePostReq;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -8,6 +9,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class UserJoinReq {
+    private int id;
     private String name;
     private String loginId;
     private String loginPw;
@@ -18,4 +20,5 @@ public class UserJoinReq {
     private String email;
     private String imagePath;
     private String role;
+    private StorePostReq owner;
 }
