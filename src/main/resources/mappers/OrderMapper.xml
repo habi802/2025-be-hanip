@@ -32,7 +32,7 @@
         ON o.store_id = s.id
         JOIN menus m
         ON om.menu_id = m.id
-        WHERE o.id = #{id};
+        WHERE o.id = #{id} ;
     </select>
 
 <!--일단 위에랑 동일 -->
