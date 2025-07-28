@@ -1,6 +1,6 @@
 constants:
   file:
-    directory: /home/download
+    directory: D:/hanip/images
 
 spring:
   datasource:

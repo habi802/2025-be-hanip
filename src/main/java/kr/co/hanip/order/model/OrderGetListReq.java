@@ -8,7 +8,9 @@ import lombok.ToString;
 @Getter
 @ToString
 public class OrderGetListReq {
-    private int menuName;
+    private int orderId;
+    private int menuId;
+    private String name;
     private int quantity;
     private int price;
 }

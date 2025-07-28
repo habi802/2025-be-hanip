@@ -5,12 +5,20 @@
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO reviews
         SET id = #{id},
-            user_id = #{userId},
             order_id = #{orderId},
             rating = #{rating},
             comment = #{comment},
             image_path = #{imagePath}
     </insert>
+
+    <!-- 리뷰 수정-->
+    <update id="modify" useGeneratedKeys="true" keyProperty="id">
+        UPDATE reviews
+        SET rating = #{rating}
+        ,   comment = #{comment}
+        ,    image_path = #{imagePath}
+        WHERE id = #{id}
+    </update>
 
     <!-- 가게 리뷰 조회 -->
     <select id="findAllByStoreIdOrderByIdDesc">
@@ -46,12 +54,12 @@
         ORDER BY r.id DESC
     </select>
 
-    <!-- 리뷰 상세 조회 -->
-<!--    <select id="findByReviewId">-->
-<!--        SELECT id, store_id, user_id, rating, comment, created_at-->
-<!--        FROM review-->
-<!--        WHERE id = #{reviewId}-->
-<!--    </select>-->
+<!--     리뷰 상세 조회 -->
+    <select id="findByorderId">
+        SELECT id, order_id AS orderId, rating, comment, created, image_path
+        FROM reviews
+        WHERE order_id = #{orderId}
+    </select>
 
     <!-- 사장 답글 등록 전 본인 가게인지 검증 -->
     <select id="findByReviewIdAndStoreId">

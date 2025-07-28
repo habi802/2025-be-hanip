@@ -6,6 +6,7 @@ import kr.co.hanip.review.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -17,13 +18,15 @@ public class ReviewService {
     private final ReviewMapper reviewMapper;
     private final MyFileUtils myFileUtils;
 
+
     public int save(MultipartFile img, ReviewPostReq req, int loggedInUserId) {
         req.setUserId(loggedInUserId);
+
         String saveFileName = myFileUtils.makeRandomFileName(img);
         req.setImagePath(saveFileName);
         int result = reviewMapper.save(req);
 
-        String directoryPath = String.format("/review/%d",req.getId());
+        String directoryPath = String.format("/review-profile/%d",req.getId());
         myFileUtils.makeFolders(directoryPath);
 
         String savePathFileName = directoryPath + "/" + saveFileName;
@@ -45,9 +48,9 @@ public class ReviewService {
         return reviewMapper.findAllByUserIdOrderByIdDesc(loggedInUserId);
     }
 
-//    public ReviewGetRes reviewGet(int reviewId) {
-//        return reviewMapper.reviewGet(reviewId);
-//    }
+    public ReviewGetRes reviewGet(int orderId) {
+        return reviewMapper.findByorderId(orderId);
+    }
 
     public Integer updateOwnerComment(ReviewPatchReq req, int storeId) {
         ReviewPatchDto dto = ReviewPatchDto.builder()
@@ -70,5 +73,25 @@ public class ReviewService {
                 .build();
 
         return reviewMapper.delete(dto);
+    }
+//      리뷰 수정용
+    public int modify(MultipartFile img, ReviewPutReq req, int loggedInUserId) {
+        req.setUserId(loggedInUserId);
+        String saveFileName = myFileUtils.makeRandomFileName(img);
+        req.setImagePath(saveFileName);
+        int result = reviewMapper.modify(req);
+
+        String directoryPath = String.format("/review-profile/%d",req.getId());
+        myFileUtils.makeFolders(directoryPath);
+
+        String savePathFileName = directoryPath + "/" + saveFileName;
+        try {
+            myFileUtils.transferTo(img,savePathFileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        return 1;
     }
 }

@@ -11,7 +11,9 @@
         , comment = #{comment}
         , business_number = #{businessNumber}
         , license_path = #{licensePath}
+        , postcode = #{postcode}
         , address = #{address}
+        , address_detail = #{addressDetail}
         , tel = #{tel}
         , owner_name = #{ownerName}
     </insert>
