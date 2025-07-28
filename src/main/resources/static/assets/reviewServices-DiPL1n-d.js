@@ -1,1 +1,0 @@
-import{Y as o}from"./index-D6nqwiFg.js";const s="/review",a=e=>o.get(`${s}/store/${e}`).catch(t=>t.response),p=(e,t)=>o.patch("/review/owner",{reviewId:e,ownerComment:t},{headers:{"Content-Type":"application/json"}}),c=e=>{const t={headers:{"Content-Type":"multipart/form-data"}};return o.post(s,e,t).catch(r=>r.response)};export{a as g,p,c as s};
