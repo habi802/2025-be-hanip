@@ -5,7 +5,6 @@
     <insert id="menuPost" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO menus
         SET user_id = #{userId}
-        ,   id = #{id}
         ,   store_id = #{storeId}
         ,   name = #{name}
         ,   comment =#{comment}
