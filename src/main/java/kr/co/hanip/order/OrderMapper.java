@@ -13,4 +13,5 @@ public interface OrderMapper {
     int updateStatus(OrderStatusPatchReq req);
     int hideByOrderId(int orderId);
     List<OrderGetDetailRes> findOrderByStoreId(int storeId);
+    List<OrderGetDetailRes> findByStoreIdAndDate(OrderDateGetReq req);
 }

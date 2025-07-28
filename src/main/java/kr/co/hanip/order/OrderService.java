@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Slf4j
@@ -90,6 +91,24 @@ public class OrderService {
 
     public List<OrderGetDetailRes> findByStoreId(int storeId) {
         List<OrderGetDetailRes> results = orderMapper.findOrderByStoreId(storeId);
+
+        for (OrderGetDetailRes order : results) {
+            List<OrderMenuDto> menus = orderMenusMapper.findAllByOrderId(order.getId());
+            order.setMenus(menus);
+        }
+        return results;
+    }
+
+    public List<OrderGetDetailRes> findByStoreIdAndDate(OrderDateGetReq req) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(req.getEndDate());
+//        calendar.set(Calendar.HOUR_OF_DAY, 23);
+//        calendar.set(Calendar.MINUTE, 59);
+//        calendar.set(Calendar.SECOND, 59);
+//        calendar.set(Calendar.MILLISECOND, 999);
+//
+//        req.setEndDate(calendar.getTime());
+        List<OrderGetDetailRes> results = orderMapper.findByStoreIdAndDate(req);
 
         for (OrderGetDetailRes order : results) {
             List<OrderMenuDto> menus = orderMenusMapper.findAllByOrderId(order.getId());

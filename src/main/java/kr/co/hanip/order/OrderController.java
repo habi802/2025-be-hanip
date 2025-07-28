@@ -83,7 +83,17 @@ public class OrderController {
             return ResponseEntity.ok(ResultResponse.success(result));
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
 
+    @GetMapping("/order/owner")
+    public ResponseEntity<ResultResponse<List<OrderGetDetailRes>>> getOrderListByStoreId(HttpServletRequest httpReq, @ModelAttribute OrderDateGetReq req) {
+        Integer logginedMemberId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        List<OrderGetDetailRes> result;
+        if(logginedMemberId != null){
+            result = orderService.findByStoreIdAndDate(req);
+            return ResponseEntity.ok(ResultResponse.success(result));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
 }

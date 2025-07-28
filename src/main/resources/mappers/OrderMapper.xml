@@ -63,4 +63,21 @@
         ORDER BY o.updated DESC
     </select>
 
+    <select id="findByStoreIdAndDate">
+        SELECT o.id, o.user_id, s.name AS storeName,
+        u.name AS userName, o.amount, o.status, s.id AS storeId,
+        o.address, o.postcode, o.address_detail, o.created, o.updated, u.phone,
+        o.is_deleted
+        FROM orders o
+        JOIN users u ON o.user_id = u.id
+        JOIN stores s ON s.id = o.store_id
+        WHERE o.store_id = #{storeId}
+        <if test="startDate != null and endDate != null">
+            AND o.created BETWEEN #{startDate} AND #{endDate}
+        </if>
+        ORDER BY o.updated DESC
+    </select>
+
+
+
 </mapper>
