@@ -1,1 +1,0 @@
-import{I as r,j as n}from"./index-D6nqwiFg.js";const u=r("carts",()=>{const t=n({items:[]});return{state:t,addMenus:a=>{a.forEach(e=>{const s=t.items.find(i=>i.id===e.id);s?s.quantity+=e.quantity:t.items.push({...e})})},clearCart:()=>{t.items=[]},getItems:()=>t.items}});export{u};
