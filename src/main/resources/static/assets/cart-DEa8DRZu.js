@@ -1,1 +1,0 @@
-import{L as r,i as n}from"./index-DnEMUMQg.js";const u=r("carts",()=>{const t=n({items:[]});return{state:t,addMenus:i=>{i.forEach(e=>{const s=t.items.find(a=>a.id===e.id);s?s.quantity+=e.quantity:t.items.push({...e})})},clearCart:()=>{t.items=[]},getItems:()=>t.items}});export{u};
