@@ -4,17 +4,24 @@
 
     <insert id="save">
         INSERT INTO favorites
-        SET user_id = #{userId}
-        ,   store_id = #{storeId}
-        ,   created = NOW()
+        SET user_id = #{userId},
+        store_id = #{storeId}
     </insert>
 
     <select id="findAllByUserId">
-        SELECT f.store_id AS id
-        ,      s.name
+        SELECT f.store_id, s.name, s.image_path,
+            COUNT(DISTINCT CONCAT(f.user_id, '_', f.store_id)) AS favorites,
+            IFNULL(AVG(r.rating), 0) AS rating
         FROM favorites f
-        JOIN stores s ON f.store_id = s.id
+        JOIN stores s
+        ON f.store_id = s.id
+        JOIN orders o
+        ON o.store_id = s.id
+        JOIN reviews r
+        ON r.order_id = o.id
         WHERE f.user_id = #{userId}
+        GROUP BY f.store_id
+        ORDER BY f.store_id
     </select>
 
     <select id="findByStoreIdAndUserId">
