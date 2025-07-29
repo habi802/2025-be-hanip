@@ -6,6 +6,9 @@ import lombok.ToString;
 @Getter
 @ToString
 public class FavoriteGetRes {
-    private int id;
+    private int storeId;
     private String name;
+    private String imagePath;
+    private int favorites;
+    private long rating;
 }
