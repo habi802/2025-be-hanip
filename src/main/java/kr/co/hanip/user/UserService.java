@@ -17,8 +17,18 @@ public class UserService {
     private final StoreMapper storeMapper;
 
     @Transactional
-    int join(UserJoinReq req) {
+    Integer join(UserJoinReq req) {
         int result = 0;
+
+        // 아이디 중복 체크
+        UserPostReq checkIdReq = UserPostReq.builder()
+                .loginId(req.getLoginId())
+                .role(req.getRole())
+                .build();
+
+        if (userMapper.findIdByLoginIdAndRole(checkIdReq) != null && userMapper.findIdByLoginIdAndRole(checkIdReq) > 0) {
+            return null;
+        }
 
         String hashedPw = BCrypt.hashpw(req.getLoginPw(), BCrypt.gensalt());
 
@@ -58,6 +68,10 @@ public class UserService {
         }
 
         return result;
+    }
+
+    Integer findId(UserPostReq req) {
+        return userMapper.findIdByLoginIdAndRole(req);
     }
 
     UserLoginRes login(UserLoginReq req) {
