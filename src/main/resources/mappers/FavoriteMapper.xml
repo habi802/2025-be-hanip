@@ -15,9 +15,9 @@
         FROM favorites f
         JOIN stores s
         ON f.store_id = s.id
-        JOIN orders o
+        LEFT JOIN orders o
         ON o.store_id = s.id
-        JOIN reviews r
+        LEFT JOIN reviews r
         ON r.order_id = o.id
         WHERE f.user_id = #{userId}
         GROUP BY f.store_id
