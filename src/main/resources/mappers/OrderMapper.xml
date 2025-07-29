@@ -19,6 +19,7 @@
         JOIN stores s ON o.store_id = s.id
         JOIN users u ON o.user_id = u.id
         WHERE o.user_id = #{userId}
+        AND is_deleted = 0
         ORDER BY o.created DESC
     </select>
 
