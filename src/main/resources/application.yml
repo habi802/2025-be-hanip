@@ -8,6 +8,9 @@ spring:
     username: green1
     password: spring502
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  servlet:
+    multipart:
+      max-file-size: 15MB
 
 mybatis:
   configuration:
