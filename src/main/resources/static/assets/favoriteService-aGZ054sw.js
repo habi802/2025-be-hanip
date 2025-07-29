@@ -1,1 +1,0 @@
-import{$ as s}from"./index-BGfVY7AN.js";const r="/favorite",a=t=>s.get(`${r}/${t}`).catch(e=>e.response),c=t=>s.post(r,t).catch(e=>e.response),n=t=>s.delete(`${r}/${t}`).catch(e=>e.response),i=()=>s.get(r).catch(t=>t.response);export{c as a,i as b,n as d,a as g};
