@@ -1,0 +1,1 @@
+import{a0 as s}from"./index-DbcPW4F0.js";const o="/assets/owner-service3-Cg-Yn7b7.png",a="/favorite",n=e=>s.get(`${a}/${e}`).catch(t=>t.response),c=e=>s.post(a,e).catch(t=>t.response),i=e=>s.delete(`${a}/${e}`).catch(t=>t.response),p=()=>s.get(a).catch(e=>e.response);export{i as a,c as b,p as c,o as d,n as g};
