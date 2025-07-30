@@ -1,1 +1,0 @@
-import{M as o,j as r}from"./index-B7YfN-Dc.js";const n=o("favorite",()=>{const e=r({storeIds:[]});return{state:e,setFavorites:s=>{e.storeIds=s},toggleFavorite:s=>{e.storeIds.includes(s)?e.storeIds=e.storeIds.filter(t=>t!==s):e.storeIds.push(s),console.log("storeIds:",e.storeIds)}}});export{n as u};
