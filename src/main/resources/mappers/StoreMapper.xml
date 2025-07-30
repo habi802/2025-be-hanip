@@ -37,7 +37,7 @@
             </if>
         </where>
         GROUP BY s.id
-        ORDER BY s.id
+        ORDER BY s.id DESC
     </select>
 
     <!-- 가게 상세 조회 -->
