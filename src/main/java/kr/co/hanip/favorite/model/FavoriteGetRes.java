@@ -11,4 +11,5 @@ public class FavoriteGetRes {
     private String imagePath;
     private int favorites;
     private long rating;
+    private int reviews;
 }
