@@ -86,6 +86,19 @@ public class UserController {
         return ResponseEntity.ok(ResultResponse.success(result));
     }
 
+    @PostMapping("/check-password")
+    public ResponseEntity<ResultResponse<Integer>> checkPassword(@RequestBody String password, HttpServletRequest httpReq) {
+        Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
+        if (loggedInUserId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ResultResponse.fail(401, "로그인 후 이용해주세요."));
+        }
+
+        Integer result = userService.checkPassword(loggedInUserId, password);
+        return ResponseEntity.ok(ResultResponse.success(result));
+    }
+
     @PutMapping
     public ResponseEntity<ResultResponse<Integer>> update(@RequestBody UserPutReq req, HttpServletRequest httpReq) {
         Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
