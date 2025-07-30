@@ -4,8 +4,13 @@
 
     <insert id="save" useGeneratedKeys="true" keyProperty="cartId">
         INSERT INTO carts
-        SET user_id = #{userId},
-            menu_id = #{menuId}
+        <trim prefix="SET" suffixOverrides=",">
+            user_id = #{userId},
+            menu_id = #{menuId},
+            <if test="quantity != null">
+                quantity = #{quantity}
+            </if>
+        </trim>
     </insert>
 
     <select id="findAllMenuAndUserId">

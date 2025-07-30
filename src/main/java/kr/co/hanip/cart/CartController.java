@@ -26,7 +26,6 @@ public class CartController {
 
     @PostMapping
     public ResponseEntity<ResultResponse<Integer>> save(HttpServletRequest httpReq, @RequestBody CartPostReq req) {
-        log.info("req: ", req);
         Integer loggedInUserId = (Integer) HttpUtils.getSessionValue(httpReq, UserConstants.LOGGED_IN_USER_ID);
         if (loggedInUserId == null) {
             return ResponseEntity
