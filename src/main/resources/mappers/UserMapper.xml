@@ -36,11 +36,15 @@
     </select>
 
     <select id="findByUserId">
-        SELECT id, name, login_id,
-            postcode, address, address_detail,
-            phone, email, image_path, role, created
-        FROM users
-        WHERE id = #{userId}
+        SELECT u.id, u.name, u.login_id,
+            u.postcode, u.address, u.address_detail,
+            u.phone, u.email, u.image_path, u.role, u.created,
+            COUNT(o.id) AS orders
+        FROM users u
+        LEFT JOIN orders o
+        ON o.user_id = u.id
+        WHERE u.id = #{userId}
+        GROUP BY u.id
     </select>
 
     <select id="findPasswordByUserId">

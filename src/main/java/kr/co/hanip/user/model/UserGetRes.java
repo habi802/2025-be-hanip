@@ -17,4 +17,5 @@ public class UserGetRes {
     private String imagePath;
     private String role;
     private String created;
+    private int orders;
 }
