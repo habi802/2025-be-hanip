@@ -51,13 +51,17 @@
 
     <update id="update">
         UPDATE users
-        SET name = #{name},
+        <trim prefix="SET" suffixOverrides=",">
+            name = #{name},
             postcode = #{postcode},
             address = #{address},
-            address_detail = #{address_detail},
+            address_detail = #{addressDetail},
             phone = #{phone},
             email = #{email},
-            image_path = #{imagePath}
+            <if test="imagePath != null and imagePath != ''">
+                image_path = #{imagePath}
+            </if>
+        </trim>
         WHERE id = #{userId}
     </update>
 

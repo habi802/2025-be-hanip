@@ -93,6 +93,16 @@ public class UserService {
         return userMapper.findByUserId(loggedInUserId);
     }
 
+    Integer checkPassword(int loggedInUserId, String password) {
+        String currentPw = userMapper.findPasswordByUserId(loggedInUserId);
+
+        if (currentPw == null || !BCrypt.checkpw(password, currentPw)) {
+            return null;
+        }
+
+        return 1;
+    }
+
     Integer update(int loggedInUserId, UserPutReq req) {
         String currentPw = userMapper.findPasswordByUserId(loggedInUserId);
 
@@ -108,7 +118,7 @@ public class UserService {
                 .addressDetail(req.getAddressDetail())
                 .phone(req.getPhone())
                 .email(req.getEmail())
-                .imagePath(req.getImagePath())
+                //.imagePath(req.getImagePath())
                 .build();
 
         return userMapper.update(dto);
