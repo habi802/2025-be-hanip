@@ -1,0 +1,1 @@
+import{a0 as r}from"./index-DW6nq-Uy.js";const s=t=>r.post("/cart",t).catch(e=>e.response),c=()=>r.get("/cart").catch(t=>t.response),o=t=>r.patch("/cart",t).catch(e=>e.response),n=t=>r.delete(`/cart/${t}`).catch(e=>e.response),p=()=>r.delete("/cart").catch(t=>t.response);export{s as a,n as b,c as g,p as r,o as u};
